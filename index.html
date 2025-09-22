@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Portfolio — Mateusz Birembaut</title>
+    <meta name="description" content="Portfolio de projets par Mateusz Birembaut" />
+  <meta name="robots" content="noindex, nofollow" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="#/">Mateusz Birembaut</a>
+        <nav class="nav">
+          <a href="#/" class="nav-link">Accueil</a>
+          <a href="#/projets" class="nav-link">Projets</a>
+          <a href="#/tps" class="nav-link">TP</a>
+          <a href="#/repos" class="nav-link">Repos</a>
+        </nav>
+      </div>
+    </header>
+
+    <aside id="constructionBanner" class="notice construction" role="status" aria-live="polite">
+      <div class="container notice-inner">
+        <span>🚧 En construction — le contenu évolue.</span>
+        <button id="constructionClose" class="btn secondary" aria-label="Masquer le bandeau">×</button>
+      </div>
+    </aside>
+
+    <main class="container" id="app" aria-live="polite"></main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <span>© <span id="year"></span> Mateusz Birembaut</span>
+        <a href="https://github.com/Mateusz-Birembaut" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </footer>
+
+    <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-label="Agrandir l'image">
+      <button class="lightbox-close" aria-label="Fermer" id="lightboxClose">×</button>
+      <img id="lightboxImg" alt="Aperçu média" />
+      <figcaption id="lightboxCaption"></figcaption>
+    </div>
+
+    <script src="assets/js/app.js" type="module"></script>
+  </body>
+</html>

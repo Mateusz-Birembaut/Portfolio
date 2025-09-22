@@ -1,0 +1,17 @@
+{
+  "tps": [
+    {
+      "slug": "algo-tri-rapide",
+      "title": "TP - Tri rapide",
+      "summary": "Implémentation et benchmarks du quicksort.",
+      "description": "Analyse de complexité, implémentation optimisée, et comparaisons avec d'autres tris.",
+      "tags": ["TP", "Algo"],
+      "tech": ["Python"],
+      "cover": "assets/projects/tp/tri-rapide.png",
+      "media": [
+        { "type": "image", "src": "assets/projects/tp/tri-rapide.png", "caption": "Courbe de perfs" },
+        { "type": "pdf", "src": "assets/projects/tp/tri-rapide-rapport.pdf", "caption": "Rapport" }
+      ]
+    }
+  ]
+}

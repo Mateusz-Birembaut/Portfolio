@@ -1,0 +1,12 @@
+{
+  "name": "portfolio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "fetch": "node scripts/fetch_repos.mjs",
+    "build:data": "node scripts/build_data.mjs",
+  "build": "npm run fetch && npm run build:data",
+  "dev": "python3 -m http.server 5173"
+  },
+  "engines": { "node": ">=18" }
+}

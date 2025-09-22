@@ -1,0 +1,65 @@
+{
+  "projects": [
+    {
+      "slug": "tp-algorithmes",
+      "title": "Ray Tracer",
+      "summary": "Moteur de rendu 3D par lancer de rayons, accéléré par multi-threading et Kd-Tree et Bounding Boxes.",
+      "description": "Développement d’un ray tracer CPU en C++ avec interface graphique ImGui et rendu OpenGL. Gestion avancée des matériaux (textures, normal maps), import de maillages OFF, génération d’images photo-réalistes (PPM/PNG). Optimisation des performances via structures d’accélération (Kd-Tree, Bounding Boxes).",
+      "status": "Terminé",
+      "tags": ["3D", "Rendu", "Ray Tracing", "Optimisation", "ImGui", "OpenGL", "C++"],
+      "tech": ["C++", "OpenGL", "ImGui"],
+      "github": "https://github.com/Mateusz-Birembaut/HAI719I-Programmation-3D/tree/main/Projet-Ray_Tracer",
+      "media": [
+        { "type": "image", "src": "assets/projects/ray_tracer/rendu.png", "caption": "Aperçu du rendu avec photon mapping" },
+        { "type": "pdf", "src": "assets/projects/ray_tracer/Ray_tracer_Mateusz_BIREMBAUT.pdf", "caption": "Rapport" }
+      ]
+    },
+
+    {
+      "slug": "orcoeur",
+      "title": "OrCoeur – Simplification de maillages 3D hors mémoire",
+      "summary": "Outil avancé de simplification, découpe et conversion de maillages 3D, avec interface graphique et visualisation interactive.",
+      "description": "Le projet intègre des techniques d’optimisation de l’utilisation de la mémoire lors du traitement des maillages 3D. L’algorithme de tri (merge sort) est implémenté pour minimiser les allocations temporaires et garantir une gestion efficace des structures volumineuses. D’autres optimisations incluent l’utilisation de structures de données compactes, la réduction des copies inutiles, et le recours à des passes de dereferencement pour limiter la fragmentation mémoire. Ces choix permettent de traiter des maillages de grande taille tout en maintenant de bonnes performances et une faible empreinte mémoire. Le logiciel propose la simplification adaptative, la découpe, la conversion de formats et la visualisation interactive via ImGui et Polyscope.",
+      "status": "Terminé",
+      "tags": ["3D", "Maillage", "Simplification", "Optimisation mémoire", "Visualisation", "ImGui", "Polyscope", "C++"],
+      "tech": ["C++", "ImGui", "Polyscope", "Eigen", "CMake"],
+      "github": "https://github.com/horscoeur/OrCoeur",
+      "media": [
+        { "type": "image", "src": "assets/projects/orcoeur/visualisation.png", "caption": "Aperçu Visualisation" },
+        { "type": "pdf", "src": "assets/projects/orcoeur/OrCoeur_Rapport.pdf", "caption": "Rapport Technique" }
+      ]
+    }, 
+
+	{
+		"slug": "luigiengine",
+		"title": "LuigiEngine – Moteur de jeu 3D from scratch en C++ et OpenGL",
+		"summary": "Moteur 3D pour jeux de course en C++/OpenGL, avec ECS, rendu PBR, physique et collision, personnalisation de circuits, audio et outils de debug interactifs.",
+		"description": "LuigiEngine est un moteur de jeu (jeu de course) 3D développé en C++ intégrant un système ECS modulaire, un pipeline de rendu OpenGL/GLSL, la possibilité de modifié le tracé du circuit dans le moteur avec une courbe de Catmull-Rom et des points de contrôles. Il propose une physique temps réel avec détection de collisions (AABB, OBB, sphère, cylindre, raycast), possibilité de jouer des sons via miniaudio, et une interface de debug et d’édition interactive basée sur ImGui docking. La compilation est gérée par CMake.",
+		"status": "Terminé",
+		"tags": ["3D", "Moteur de jeu", "ECS", "Physique", "OpenGL", "Audio", "ImGui", "C++"],
+		"tech": ["C++", "OpenGL", "GLSL", "ImGui", "miniaudio", "CMake"],
+		"github": "https://github.com/Rashnain/LuigiEngine",
+		"media": [
+			{ "type": "image", "src": "assets/projects/luigiengine/screenshot.png", "caption": "Aperçu du moteur" }
+		]
+	},
+
+	{
+		"slug": "projet-compression-4k",
+		"title": "Compresseur universel d’images 4K",
+		"summary": "Application de compression d’images 4K en C++ avec interface Qt, utilisant des algorithmes de superpixels (SLIC, SDGT), Analyse du PSNR pour quantifier les résultats.",
+		"description": "Ce projet propose un compresseur d’images 4K développé en C++ avec une interface graphique Qt. Il intègre des algorithmes de segmentation en superpixels (SLIC, SDGT), permet de calculer le PSNR et le taux de compression, et de comparer les deux images côte à côte pour observer les résultats de la compression. La compilation est gérée par CMake et OpenCV est utilisé pour le traitement d’images.",
+		"status": "Terminé",
+		"tags": ["Compression", "Image 4K", "Superpixels", "Qt", "OpenCV", "C++"],
+		"tech": ["C++", "Qt", "OpenCV", "CMake"],
+		"github": "https://github.com/vincent-bernardon/projet-compression-4K",
+		"media": [
+			{ "type": "image", "src": "Documents/courbe_psnr_k.png", "caption": "Courbe PSNR K" },
+			{ "type": "image", "src": "Documents/taux_compression_K.png", "caption": "Taux de compression K" }
+		]
+	}
+
+  ]
+
+
+}
