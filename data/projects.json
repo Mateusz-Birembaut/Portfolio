@@ -8,6 +8,7 @@
       "status": "Terminé",
       "tags": ["3D", "Rendu", "Ray Tracing", "Optimisation", "ImGui", "OpenGL", "C++"],
       "tech": ["C++", "OpenGL", "ImGui"],
+  "contributors": ["mateusz"],
       "github": "https://github.com/Mateusz-Birembaut/HAI719I-Programmation-3D/tree/main/Projet-Ray_Tracer",
       "media": [
         { "type": "image", "src": "assets/projects/ray_tracer/rendu.png", "caption": "Aperçu du rendu avec photon mapping" },
@@ -23,10 +24,12 @@
       "status": "Terminé",
       "tags": ["3D", "Maillage", "Simplification", "Optimisation mémoire", "Visualisation", "ImGui", "Polyscope", "C++"],
       "tech": ["C++", "ImGui", "Polyscope", "Eigen", "CMake"],
-      "github": "https://github.com/horscoeur/OrCoeur",
+  "contributors": ["donovan", "hugo", "mateusz"],
+      "github": "https://github.com/horscoeur/OrCoeur/tree/stream/write", 
       "media": [
-        { "type": "image", "src": "assets/projects/orcoeur/visualisation.png", "caption": "Aperçu Visualisation" },
-        { "type": "pdf", "src": "assets/projects/orcoeur/OrCoeur_Rapport.pdf", "caption": "Rapport Technique" }
+        { "type": "image", "src": "assets/projects/Orcoeur/simplification.png", "caption": "Comparaison de la simplification entre 2 algorithmes" },
+        { "type": "image", "src": "assets/projects/Orcoeur/simplification2.png", "caption": "Simplification de maillages de 4.7GB" },
+        { "type": "pdf", "src": "assets/projects/Orcoeur/Rapport_Orcoeur.pdf", "caption": "Rapport" }
       ]
     }, 
 
@@ -38,9 +41,12 @@
 		"status": "Terminé",
 		"tags": ["3D", "Moteur de jeu", "ECS", "Physique", "OpenGL", "Audio", "ImGui", "C++"],
 		"tech": ["C++", "OpenGL", "GLSL", "ImGui", "miniaudio", "CMake"],
+    "contributors": ["remy", "arthur","mateusz"],
 		"github": "https://github.com/Rashnain/LuigiEngine",
 		"media": [
-			{ "type": "image", "src": "assets/projects/luigiengine/screenshot.png", "caption": "Aperçu du moteur" }
+      { "type": "image", "src": "assets/projects/luigiEngine/test.png", "caption": "" },
+			{ "type": "video", "src": "assets/projects/luigiEngine/test_physique.mp4", "poster": "assets/projects/luigiengine/poster.jpg", "caption": "Démo"  },
+      { "type": "image", "src": "assets/projects/luigiEngine/modification_circuit.png", "caption": "Aperçu de la modification du circuit" }
 		]
 	},
 
@@ -52,12 +58,27 @@
 		"status": "Terminé",
 		"tags": ["Compression", "Image 4K", "Superpixels", "Qt", "OpenCV", "C++"],
 		"tech": ["C++", "Qt", "OpenCV", "CMake"],
+    "contributors": ["vincent" ,"mateusz"],
 		"github": "https://github.com/vincent-bernardon/projet-compression-4K",
 		"media": [
-			{ "type": "image", "src": "Documents/courbe_psnr_k.png", "caption": "Courbe PSNR K" },
-			{ "type": "image", "src": "Documents/taux_compression_K.png", "caption": "Taux de compression K" }
+      { "type": "image", "src": "assets/projects/compression4k/resultat.png", "caption": "Compression SLIC avec peu de super pixels" },
+			{ "type": "image", "src": "assets/projects/compression4k/exempleCompression2.png", "caption": "Interface et compression d'une image" }
 		]
-	}
+	},
+
+{
+    "slug": "particle-system-spatiotemporal-data",
+    "title": "Système à particules pour visualisation de données spatio-temporelles",
+    "summary": "Application web de visualisation interactive utilisant des systèmes à particules pour représenter différents phénomènes : cartes de vent, simulations physiques, effets de feu, feux d'artifice et structures arborescentes.",
+    "description": "Ce projet propose un système de visualisation de données spatio-temporelles développé en JavaScript avec Node.js et Express. Il implémente plusieurs types de simulations à particules : visualisation de cartes météorologiques (windmap), visualisation des votes lors d'élections, effets visuels de feu et feux d'artifice, et génération de structures arborescentes. L'application offre une interface web interactive avec des contrôles en temps réel pour ajuster les paramètres des simulations (nombre de particules, vitesse, durée de vie, etc.).",
+    "status": "Terminé",
+    "tags": ["Système à particules", "Visualisation de données", "JavaScript", "Canvas", "Simulation physique", "Données météorologiques", "Interface web interactive"],
+    "tech": ["JavaScript", "Node.js", "Express", "HTML5 Canvas", "EJS", "CSS3"],
+    "contributors": ["jules", "mateusz"],
+    "github": "https://github.com/JMarguery/ParticleSystemPP2GroupH",
+    "media": [
+    ]
+}
 
   ]
 

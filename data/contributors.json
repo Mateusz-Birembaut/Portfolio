@@ -1,0 +1,39 @@
+{
+	"contributors": [
+		{
+			"id": "mateusz",
+			"handle": "Mateusz-Birembaut",
+			"url": "https://github.com/Mateusz-Birembaut"
+		},
+		{
+			"id": "donovan",
+			"handle": "J-hune",
+			"url": "https://github.com/J-hune"
+		},
+		{
+			"id": "hugo",
+			"handle": "Aquillot",
+			"url": "https://github.com/Aquillot"
+		},
+		{
+			"id": "arthur",
+			"handle": "ACondeSalazar",
+			"url": "https://github.com/ACondeSalazar"
+		},
+		{
+			"id": "remy",
+			"handle": "Rashnain",
+			"url": "https://github.com/Rashnain"
+		},
+		{
+			"id": "vincent",
+			"handle": "vincent-bernardon",
+			"url": "https://github.com/vincent-bernardon"
+		},
+		{
+			"id": "jules",
+			"handle": "JMarguery",
+			"url": "https://github.com/JMarguery"
+		}
+	]
+}

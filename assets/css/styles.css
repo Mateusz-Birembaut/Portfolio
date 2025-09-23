@@ -178,6 +178,21 @@ body {
 	font-size: .75rem
 }
 
+/* Contributors (different look than tags) */
+.contributors { display:flex; flex-wrap:wrap; gap:8px; }
+.contrib {
+	display:inline-flex; align-items:center; gap:8px;
+	background: #141f33;
+	border: 1px solid #2a3f61;
+	color: var(--text);
+	padding: 6px 10px;
+	border-radius: 999px;
+	font-size: .8rem;
+	text-decoration: none;
+}
+.contrib:hover { border-color:#3a5a8f; }
+.contrib .role { color: var(--muted); font-size:.75rem; }
+
 .title {
 	font-size: 1.05rem;
 	margin: 6px 0 8px
@@ -248,13 +263,16 @@ body {
 }
 
 .media-grid img,
-.media-grid .pdf {
+.media-grid .pdf,
+.media-grid video {
 	width: 100%;
 	border-radius: 10px;
 	border: 1px solid var(--border);
 	cursor: zoom-in;
 	background: #0a0f18
 }
+
+.media-grid video { cursor: default; background: #000; }
 
 .pdf {
 	display: flex;
@@ -288,7 +306,8 @@ body {
 	align-items: center;
 	justify-content: center;
 	padding: 24px;
-	z-index: 100
+	z-index: 100;
+	flex-direction: column;
 }
 
 .lightbox.open {
@@ -297,10 +316,18 @@ body {
 
 .lightbox img {
 	max-width: min(1200px, 92vw);
-	max-height: 80vh;
+	max-height: 70vh;
 	border-radius: 12px;
 	border: 1px solid var(--border);
 	background: #000
+}
+
+.lightbox figcaption {
+	color: #fff;
+	text-align: center;
+	margin-top: 12px;
+	font-size: 0.9rem;
+	max-width: min(1200px, 92vw);
 }
 
 .lightbox-close {

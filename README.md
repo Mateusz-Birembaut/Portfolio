@@ -12,8 +12,19 @@ Site portfolio statique pour Mateusz Birembaut, sans appels à l'API GitHub côt
   - `media`: liste d'objets
     - image: `{ "type": "image", "src": "assets/.../image.png", "caption": "Texte" }`
     - pdf: `{ "type": "pdf", "src": "assets/.../doc.pdf", "caption": "Texte" }`
+    - video (mp4/webm):
+      - source unique: `{ "type": "video", "src": "assets/.../demo.mp4", "poster": "assets/.../poster.jpg", "caption": "Démo" }`
+      - multiples sources: `{ "type": "video", "sources": [{"src":"assets/.../demo.webm","type":"video/webm"},{"src":"assets/.../demo.mp4","type":"video/mp4"}], "poster": "assets/.../poster.jpg", "caption": "Démo" }`
     - link: `{ "type": "link", "href": "https://...", "caption": "Texte" }`
   - `subprojects`: liste de sous-projets (mêmes champs que projet, sauf `subprojects`).
+
+  ### Contributeurs
+  - Ajoutez un champ `contributors` sur un projet (et/ou sous-projet).
+  - Formats acceptés:
+    - Référence par id (recommandé, réutilisable): `["mateusz", { "id": "alice", "role": "Encadrement" }]`
+    - Objet direct (sans id): `[{ "handle": "bob42", "url": "https://github.com/bob42" }]`
+  - Registre: éditez `data/contributors.json` pour définir `{ id, handle, url }`.
+  - Les contributeurs s'affichent sous forme de pastilles (différent des tags), lien si `url` est fourni. Pas d'avatar.
 
 Astuce: placez les fichiers de chaque projet dans `assets/projects/<slug>/` pour rester organisé.
 
