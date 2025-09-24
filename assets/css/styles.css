@@ -198,6 +198,14 @@ body {
 	margin: 6px 0 8px
 }
 
+.title a {
+	text-decoration: none;
+}
+
+.card a {
+	text-decoration: none;
+}
+
 .muted {
 	color: var(--muted)
 }

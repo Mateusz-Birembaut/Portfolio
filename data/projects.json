@@ -1,20 +1,5 @@
 {
   "projects": [
-    {
-      "slug": "tp-algorithmes",
-      "title": "Ray Tracer",
-      "summary": "Moteur de rendu 3D par lancer de rayons, accéléré par multi-threading et Kd-Tree et Bounding Boxes.",
-      "description": "Développement d’un ray tracer CPU en C++ avec interface graphique ImGui et rendu OpenGL. Gestion avancée des matériaux (textures, normal maps), import de maillages OFF, génération d’images photo-réalistes (PPM/PNG). Optimisation des performances via structures d’accélération (Kd-Tree, Bounding Boxes).",
-      "status": "Terminé",
-      "tags": ["3D", "Rendu", "Ray Tracing", "Optimisation", "ImGui", "OpenGL", "C++"],
-      "tech": ["C++", "OpenGL", "ImGui"],
-  "contributors": ["mateusz"],
-      "github": "https://github.com/Mateusz-Birembaut/HAI719I-Programmation-3D/tree/main/Projet-Ray_Tracer",
-      "media": [
-        { "type": "image", "src": "assets/projects/ray_tracer/rendu.png", "caption": "Aperçu du rendu avec photon mapping" },
-        { "type": "pdf", "src": "assets/projects/ray_tracer/Ray_tracer_Mateusz_BIREMBAUT.pdf", "caption": "Rapport" }
-      ]
-    },
 
     {
       "slug": "orcoeur",
@@ -33,6 +18,55 @@
       ]
     }, 
 
+    {
+      "slug": "tp-algorithmes",
+      "title": "Ray Tracer",
+      "summary": "Moteur de rendu 3D par lancer de rayons, accéléré par multi-threading et Kd-Tree et Bounding Boxes.",
+      "description": "Développement d’un ray tracer CPU en C++ avec interface graphique ImGui et rendu OpenGL. Gestion avancée des matériaux (textures, normal maps), import de maillages OFF, génération d’images photo-réalistes (PPM/PNG). Optimisation des performances via structures d’accélération (Kd-Tree, Bounding Boxes).",
+      "status": "Terminé",
+      "tags": ["3D", "Rendu", "Ray Tracing", "Optimisation", "ImGui", "OpenGL", "C++"],
+      "tech": ["C++", "OpenGL", "ImGui"],
+  "contributors": ["mateusz"],
+      "github": "https://github.com/Mateusz-Birembaut/HAI719I-Programmation-3D/tree/main/Projet-Ray_Tracer",
+      "media": [
+        { "type": "image", "src": "assets/projects/ray_tracer/rendu.png", "caption": "Aperçu du rendu avec photon mapping" },
+        { "type": "pdf", "src": "assets/projects/ray_tracer/Ray_tracer_Mateusz_BIREMBAUT.pdf", "caption": "Rapport" }
+      ]
+    },
+
+
+    {
+        "slug": "vulkan-tutorial-implementation",
+        "title": "Personnel -- Implémentation Vulkan Tutorial - Alexander Overvoorde",
+        "summary": "Implémentation du tutoriel Vulkan officiel en C++ avec gestion des buffers, pipelines graphiques, uniform buffers et rendu d'objets 3D avec matrices de transformation.",
+        "description": "Ce projet est une implémentation du tutoriel vulkan-tutorial.com, développée en C++. Il couvre tous les aspects fondamentaux de l'API Vulkan : création d'instance, sélection de périphériques physiques, création de logical devices avec gestion des queue families (graphics, present, transfer), mise en place de la swap chain, création des render passes et pipelines graphiques. L'application implémente un système de rendu moderne avec vertex et index buffers combinés dans un mesh buffer unifié, uniform buffers pour les matrices de transformation (model, view, projection), descriptor sets pour lier les ressources aux shaders, et synchronisation GPU/CPU avec semaphores et fences. Le projet inclut également la gestion du redimensionnement de fenêtre, le double buffering, et l'optimisation des transferts mémoire avec staging buffers.",
+        "status": "En cours",
+        "tags": ["Vulkan", "Rendu 3D", "C++", "API graphique", "Pipeline graphique", "Shaders", "Buffers", "Synchronisation GPU", "Tutorial officiel"],
+        "tech": ["C++", "Vulkan API", "GLFW", "GLM", "SPIR-V", "CMake"],
+        "contributors": ["mateusz"],
+        "github": "https://github.com/Mateusz-Birembaut/vulkan-tutorial",
+        "website": "https://vulkan-tutorial.com/",
+      "media": [
+        { "type": "image", "src": "assets/projects/vkTuto/example.png", "caption": "Aperçu de l'avancée actuelle" }
+      ]
+    },
+
+    	{
+		"slug": "projet-compression-4k",
+		"title": "Compresseur universel d’images 4K",
+		"summary": "Application de compression d’images 4K en C++ avec interface Qt, utilisant des algorithmes de superpixels (SLIC, SDGT), Analyse du PSNR pour quantifier les résultats.",
+		"description": "Ce projet propose un compresseur d’images 4K développé en C++ avec une interface graphique Qt. Il intègre des algorithmes de segmentation en superpixels (SLIC, SDGT), permet de calculer le PSNR et le taux de compression, et de comparer les deux images côte à côte pour observer les résultats de la compression. La compilation est gérée par CMake et OpenCV est utilisé pour le traitement d’images.",
+		"status": "Terminé",
+		"tags": ["Compression", "Image 4K", "Superpixels", "Qt", "OpenCV", "C++"],
+		"tech": ["C++", "Qt", "OpenCV", "CMake"],
+    "contributors": ["vincent" ,"mateusz"],
+		"github": "https://github.com/vincent-bernardon/projet-compression-4K",
+		"media": [
+      { "type": "image", "src": "assets/projects/compression4k/resultat.png", "caption": "Compression SLIC avec peu de super pixels" },
+			{ "type": "image", "src": "assets/projects/compression4k/exempleCompression2.png", "caption": "Interface et compression d'une image" }
+		]
+	},
+
 	{
 		"slug": "luigiengine",
 		"title": "LuigiEngine – Moteur de jeu 3D from scratch en C++ et OpenGL",
@@ -50,35 +84,23 @@
 		]
 	},
 
-	{
-		"slug": "projet-compression-4k",
-		"title": "Compresseur universel d’images 4K",
-		"summary": "Application de compression d’images 4K en C++ avec interface Qt, utilisant des algorithmes de superpixels (SLIC, SDGT), Analyse du PSNR pour quantifier les résultats.",
-		"description": "Ce projet propose un compresseur d’images 4K développé en C++ avec une interface graphique Qt. Il intègre des algorithmes de segmentation en superpixels (SLIC, SDGT), permet de calculer le PSNR et le taux de compression, et de comparer les deux images côte à côte pour observer les résultats de la compression. La compilation est gérée par CMake et OpenCV est utilisé pour le traitement d’images.",
-		"status": "Terminé",
-		"tags": ["Compression", "Image 4K", "Superpixels", "Qt", "OpenCV", "C++"],
-		"tech": ["C++", "Qt", "OpenCV", "CMake"],
-    "contributors": ["vincent" ,"mateusz"],
-		"github": "https://github.com/vincent-bernardon/projet-compression-4K",
-		"media": [
-      { "type": "image", "src": "assets/projects/compression4k/resultat.png", "caption": "Compression SLIC avec peu de super pixels" },
-			{ "type": "image", "src": "assets/projects/compression4k/exempleCompression2.png", "caption": "Interface et compression d'une image" }
-		]
-	},
 
-{
-    "slug": "particle-system-spatiotemporal-data",
-    "title": "Système à particules pour visualisation de données spatio-temporelles",
-    "summary": "Application web de visualisation interactive utilisant des systèmes à particules pour représenter différents phénomènes : cartes de vent, simulations physiques, effets de feu, feux d'artifice et structures arborescentes.",
-    "description": "Ce projet propose un système de visualisation de données spatio-temporelles développé en JavaScript avec Node.js et Express. Il implémente plusieurs types de simulations à particules : visualisation de cartes météorologiques (windmap), visualisation des votes lors d'élections, effets visuels de feu et feux d'artifice, et génération de structures arborescentes. L'application offre une interface web interactive avec des contrôles en temps réel pour ajuster les paramètres des simulations (nombre de particules, vitesse, durée de vie, etc.).",
-    "status": "Terminé",
-    "tags": ["Système à particules", "Visualisation de données", "JavaScript", "Canvas", "Simulation physique", "Données météorologiques", "Interface web interactive"],
-    "tech": ["JavaScript", "Node.js", "Express", "HTML5 Canvas", "EJS", "CSS3"],
-    "contributors": ["jules", "mateusz"],
-    "github": "https://github.com/JMarguery/ParticleSystemPP2GroupH",
-    "media": [
-    ]
-}
+
+    {
+        "slug": "particle-system-spatiotemporal-data",
+        "title": "Système à particules pour visualisation de données spatio-temporelles",
+        "summary": "Application web de visualisation interactive utilisant des systèmes à particules pour représenter différents phénomènes : cartes de vent, simulations physiques, effets de feu, feux d'artifice et structures arborescentes.",
+        "description": "Ce projet propose un système de visualisation de données spatio-temporelles développé en JavaScript avec Node.js et Express. Il implémente plusieurs types de simulations à particules : visualisation de cartes météorologiques (windmap), visualisation des votes lors d'élections, effets visuels de feu et feux d'artifice, et génération de structures arborescentes. L'application offre une interface web interactive avec des contrôles en temps réel pour ajuster les paramètres des simulations (nombre de particules, vitesse, durée de vie, etc.).",
+        "status": "Terminé",
+        "tags": ["Système à particules", "Visualisation de données", "JavaScript", "Canvas", "Simulation physique", "Données météorologiques", "Interface web interactive"],
+        "tech": ["JavaScript", "Node.js", "Express", "HTML5 Canvas", "EJS", "CSS3"],
+        "contributors": ["jules", "mateusz"],
+        "github": "https://github.com/JMarguery/ParticleSystemPP2GroupH",
+      "media": [
+        { "type": "image", "src": "assets/projects/particleSystem/windmap.png", "caption": "Aperçu d'un des système a particule" },
+        { "type": "pdf", "src": "assets/projects/particleSystem/rapport.pdf", "caption": "Rapport" }
+      ]
+    }
 
   ]
 
