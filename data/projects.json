@@ -47,7 +47,8 @@
         "github": "https://github.com/Mateusz-Birembaut/vulkan-tutorial",
         "website": "https://vulkan-tutorial.com/",
       "media": [
-        { "type": "image", "src": "assets/projects/vkTuto/example.png", "caption": "Aperçu de l'avancée actuelle" }
+        { "type": "image", "src": "assets/projects/vkTuto/exampleMesh.png", "caption": "Aperçu de l'avancée actuelle" },
+        { "type": "image", "src": "assets/projects/vkTuto/example.png", "caption": "" }
       ]
     },
 
