@@ -183,24 +183,41 @@ async function router() {
 	const parts = hash.slice(2).split('/');
 	setActiveNav(parts[0] || '');
 
-	// Home
-	if (!parts[0]) {
-		const manual = state.projects.filter(p => (p.source || 'manual') === 'manual');
-		appEl.innerHTML = renderList(manual, 'project', true);
-		return;
-	}
+		// Home
+		if (!parts[0]) {
+				const manual = state.projects.filter(p => (p.source || 'manual') === 'manual');
+				await loadTPs();
+				const previewTps = (state.tps || []).slice(0, 3);
+				const tpBlock = previewTps.length ? `
+					<section>
+						<h2>Quelques travaux pratiques</h2>
+						<div class="grid projects">${previewTps.map(tp => renderProjectCard(tp, 'tp')).join('')}</div>
+					</section>` : '';
+						// Split renderList output to insert tpBlock above About
+						const listHtml = renderList(manual, 'project', true);
+						const aboutIdx = listHtml.lastIndexOf('<section>\n      <h1>À propos</h1>');
+						let homeHtml;
+						if (aboutIdx !== -1) {
+							homeHtml = listHtml.slice(0, aboutIdx) + tpBlock + listHtml.slice(aboutIdx);
+						} else {
+							homeHtml = listHtml + tpBlock;
+						}
+						appEl.innerHTML = homeHtml;
+				bindMediaLightbox();
+				return;
+		}
 
-	// TP list
-	if (parts[0] === 'tps') {
-		await loadTPs();
-		appEl.innerHTML = `
-      <section>
-        <h1>TP</h1>
-      </section>
-      ${renderList(state.tps, 'tp', false)}
-    `;
-		return;
-	}
+		// TP list
+		if (parts[0] === 'tps') {
+				await loadTPs();
+				appEl.innerHTML = `
+			<section>
+				<h1>TP</h1>
+				<div class="grid projects">${state.tps.map(tp => renderProjectCard(tp, 'tp')).join('')}</div>
+			</section>
+		`;
+				return;
+		}
 
 	// Projets list
 	if (parts[0] === 'projets') {
@@ -218,10 +235,6 @@ async function router() {
 	if (parts[0] === 'repos') {
 		const repos = state.projects.filter(p => p.source === 'auto');
 		appEl.innerHTML = `
-      <section>
-        <h1>Repos</h1>
-        <p class="muted">Liste générée automatiquement depuis GitHub. Aucun appel API côté client.</p>
-      </section>
       ${renderList(repos, 'project', false)}
     `;
 		return;
