@@ -1,4 +1,4 @@
-const state = { projects: [], tps: [], loaded: false, tpsLoaded: false, contribs: {}, contribsLoaded: false };
+const state = { projects: [], tps: [], loaded: false, tpsLoaded: false };
 
 const byId = (id) => document.getElementById(id);
 const appEl = byId('app');
@@ -14,53 +14,22 @@ if (banner && closeBtn) {
 	closeBtn.addEventListener('click', () => { banner.style.display = 'none'; sessionStorage.setItem(key, '1'); });
 }
 
-function deepMergePreferManual(manual, auto) {
-  const out = Array.isArray(manual) ? [...manual] : { ...(manual || {}) };
-  for (const [k, v] of Object.entries(auto || {})) {
-    if (out[k] === undefined || out[k] === null || out[k] === '') {
-      out[k] = v;
-    } else if (typeof out[k] === 'object' && !Array.isArray(out[k]) && typeof v === 'object' && !Array.isArray(v)) {
-      out[k] = deepMergePreferManual(out[k], v);
-    }
-  }
-  return out;
-}
-
 async function loadData() {
 	if (state.loaded) return state.projects;
 	try {
-		// Always load manual
-		const resManual = await fetch('data/projects.json', { cache: 'no-store' });
-		if (!resManual.ok) throw new Error(`HTTP ${resManual.status}`);
-		const manual = await resManual.json();
-		// Try auto/merged file
-		let auto = null;
-		try {
-			const resAuto = await fetch('data/projects.final.json', { cache: 'no-store' });
-			if (resAuto.ok) auto = await resAuto.json();
-		} catch {}
-
-		const manualArr = (manual.projects || []).map(p => ({ ...p, source: p.source || 'manual' }));
-		if (auto && Array.isArray(auto.projects)) {
-			const out = [];
-			const bySlug = new Map();
-			for (const p of manualArr) { out.push(p); bySlug.set(p.slug, p); }
-			for (const ap of auto.projects) {
-				if (!bySlug.has(ap.slug)) out.push(ap);
-				else {
-					const idx = out.findIndex(x => x.slug === ap.slug);
-					out[idx] = deepMergePreferManual(out[idx], ap);
-				}
-			}
-			state.projects = out;
-		} else {
-			state.projects = manualArr;
+		// Prefer generated data if present
+		let res = await fetch('data/projects.final.json', { cache: 'no-store' });
+		if (!res.ok) {
+			res = await fetch('data/projects.json', { cache: 'no-store' });
 		}
+		if (!res.ok) throw new Error(`HTTP ${res.status}`);
+		const data = await res.json();
+		state.projects = data.projects || [];
 		state.loaded = true;
 		return state.projects;
 	} catch (err) {
-		console.error('Failed to load projects data', err);
-		appEl.innerHTML = `<div class="error">Impossible de charger les projets. V\u00e9rifiez data/projects.json.</div>`;
+		console.error('Failed to load projects.json', err);
+		appEl.innerHTML = `<div class="error">Impossible de charger les projets. Vérifiez data/projects.json.</div>`;
 		return [];
 	}
 }
@@ -80,58 +49,8 @@ async function loadTPs() {
 	}
 }
 
-async function loadContributors() {
-	if (state.contribsLoaded) return state.contribs;
-	try {
-		const res = await fetch('data/contributors.json', { cache: 'no-store' });
-		if (!res.ok) throw new Error(`HTTP ${res.status}`);
-		const data = await res.json();
-		const map = {};
-		for (const c of (data.contributors || [])) {
-			if (c.id && c.handle) map[c.id] = { handle: c.handle, url: c.url };
-		}
-		state.contribs = map;
-		state.contribsLoaded = true;
-		return map;
-	} catch {
-		state.contribs = {};
-		state.contribsLoaded = true;
-		return {};
-	}
-}
-
 function escapeHtml(s) {
 	return String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
-}
-
-function normalizeContrib(c) {
-	if (!c) return null;
-	// Allow string = id lookup
-	if (typeof c === 'string') {
-		const hit = state.contribs[c];
-		if (hit) return { handle: hit.handle, url: hit.url };
-		// fallback to literal string
-		return { handle: c };
-	}
-	// Object form: { id?, handle?, url?, role? }
-	const { id, handle, url, role } = c;
-	if (id && state.contribs[id]) {
-		const hit = state.contribs[id];
-		return { handle: handle || hit.handle, url: url || hit.url, role };
-	}
-	if (!handle) return null;
-	return { handle, url, role };
-}
-
-function renderContributors(list = []) {
-	const items = (list || []).map(normalizeContrib).filter(Boolean).map(c => {
-		const label = escapeHtml(c.handle);
-		const role = c.role ? ` <span class="role">· ${escapeHtml(c.role)}</span>` : '';
-		const inner = `<span>${label}</span>${role}`;
-		if (c.url) return `<a class="contrib" href="${c.url}" target="_blank" rel="noopener">${inner}</a>`;
-		return `<span class="contrib">${inner}</span>`;
-	}).join('');
-	return items ? `<div class="contributors">${items}</div>` : '';
 }
 
 function renderProjectCard(p, base = 'project') {
@@ -139,7 +58,6 @@ function renderProjectCard(p, base = 'project') {
 	const coverEl = cover ? `<img class="thumb" src="${cover}" alt="${escapeHtml(p.title)}" loading="lazy">`
 		: `<div class="thumb" aria-hidden="true"></div>`;
 	const tags = (p.tags || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join(' ');
-	const contributors = p.contributors ? renderContributors(p.contributors) : '';
 	const link = `#/${base}/${encodeURIComponent(p.slug)}`;
 	return `
   <article class="card">
@@ -147,8 +65,7 @@ function renderProjectCard(p, base = 'project') {
     <div class="content">
       <h3 class="title"><a href="${link}">${escapeHtml(p.title)}</a></h3>
       <p class="muted clamp-2">${escapeHtml(p.summary || '')}</p>
-	<div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:8px">${tags}</div>
-	${contributors ? `<div style="margin-top:8px">${contributors}</div>` : ''}
+      <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:8px">${tags}</div>
     </div>
   </article>`;
 }
@@ -161,18 +78,6 @@ function renderMediaItem(m) {
 	if (m.type === 'pdf') {
 		const cap = escapeHtml(m.caption || 'Document PDF');
 		return `<a class="pdf" href="${m.src}" target="_blank" rel="noopener" title="Ouvrir le PDF: ${cap}">📄 ${cap}</a>`;
-	}
-	if (m.type === 'video') {
-		const cap = escapeHtml(m.caption || 'Vidéo');
-		const posterAttr = m.poster ? ` poster="${m.poster}"` : '';
-		if (Array.isArray(m.sources) && m.sources.length) {
-			const sources = m.sources.map(s => `<source src="${s.src}"${s.type ? ` type="${s.type}"` : ''}>`).join('');
-			return `<video class="media" controls preload="metadata" playsinline${posterAttr} title="${cap}">${sources}Votre navigateur ne prend pas en charge la balise vidéo.</video>`;
-		}
-		if (m.src) {
-			return `<video class="media" src="${m.src}" controls preload="metadata" playsinline${posterAttr} title="${cap}">Votre navigateur ne prend pas en charge la balise vidéo.</video>`;
-		}
-		return '';
 	}
 	if (m.type === 'link') {
 		const cap = escapeHtml(m.caption || m.href);
@@ -222,7 +127,6 @@ function renderProjectDetail(p, parent, base = 'project') {
       <section>
         <p>${escapeHtml(p.description || p.summary || '')}</p>
         <div style="margin:12px 0;display:flex;gap:8px;flex-wrap:wrap">${tags}</div>
-	${p.contributors ? `<div style="margin:12px 0"><strong>Contributeurs:</strong> ${renderContributors(p.contributors)}</div>` : ''}
         <div style="display:flex;gap:10px;flex-wrap:wrap">${gh}${live}</div>
       </section>
       <aside class="meta">
@@ -254,8 +158,7 @@ function renderList(projects, base = 'project', includeAbout = true) {
 	const aboutBlock = `
     <section>
       <h1>À propos</h1>
-      <p>Étudiant en Master 2 Informatique à la Faculté des Sciences de Montpellier, je suis actuellement à la recherche d’un stage en programmation C++ orientée 3D.
-	  Vous pouvez retrouver ici mes projets, travaux pratiques et repositories. Contact: <a href="mailto:mateusz.birembaut@etu.umontpellier.fr">mateusz.birembaut@etu.umontpellier.fr</a>.</p>
+      <p>Étudiant en master 2 informatique, je suis à la recherche d'un stage en programmation C++ 3D. Retrouvez mes projets, TP, et repositories. Contact: <a href="mailto:mateusz.birembaut@etu.umontpellier.fr">mateusz.birembaut@etu.umontpellier.fr</a>.</p>
     </section>
   `;
 	return `${pinnedBlock}${allBlock}${includeAbout ? aboutBlock : ''}`;
@@ -275,7 +178,7 @@ function setActiveNav(pathRoot) {
 }
 
 async function router() {
-	await Promise.all([loadData(), loadContributors()]);
+	await loadData();
 	const hash = location.hash || '#/';
 	const parts = hash.slice(2).split('/');
 	setActiveNav(parts[0] || '');
