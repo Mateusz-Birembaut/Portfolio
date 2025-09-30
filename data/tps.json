@@ -1,17 +1,39 @@
 {
   "tps": [
     {
-      "slug": "algo-tri-rapide",
-      "title": "TP - Tri rapide",
-      "summary": "Implémentation et benchmarks du quicksort.",
-      "description": "Analyse de complexité, implémentation optimisée, et comparaisons avec d'autres tris.",
-      "tags": ["TP", "Algo"],
-      "tech": ["Python"],
-      "cover": "assets/projects/tp/tri-rapide.png",
+      "slug": "Moteur de jeux",
+      "title": "TP - Moteur de jeu",
+      "summary": "Création d'un mini moteur",
+      "description": "Création d'un mini moteur de jeu : génération de terrain par heightmap, gestion des LODs, frustum culling et partitionnement de l'espace avec un kd-tree.",
+      "tags": ["TP", "Moteur"],
+      "tech": ["C++", "OpenGL"],
+      "cover": "assets/tps/moteur/moteur.png",
+      "status": "Terminé",
+      "github": "https://github.com/Mateusz-Birembaut/HAI819I---Moteur-de-Jeux/tree/main", 
       "media": [
-        { "type": "image", "src": "assets/projects/tp/tri-rapide.png", "caption": "Courbe de perfs" },
-        { "type": "pdf", "src": "assets/projects/tp/tri-rapide-rapport.pdf", "caption": "Rapport" }
+        { "type": "image", "src": "assets/tps/moteur/moteur.png", "caption": "Capture du moteur" },
+        { "type": "image", "src": "assets/tps/moteur/frustum1.png", "caption": "Capture des performances" },
+        { "type": "image", "src": "assets/tps/moteur/frustum2.png", "caption": "Capture des performances" },
+        { "type": "pdf", "src": "assets/tps/moteur/TP3_Moteur_Mateusz_BIREMBAUT.pdf", "caption": "Rapport 1" },
+        { "type": "pdf", "src": "assets/tps/moteur/TP4_Moteur_Mateusz_BIREMBAUT.pdf", "caption": "Rapport 2" }
+      ]
+    },
+
+    {
+      "slug": "Simplification",
+      "title": "TP - Simplification de Maillage",
+      "summary": "Simplification par partitionnement",
+      "description": "Simplification de maillage par partitionnement : une méthode avec une grille uniforme et une autre avec un octree.",      
+      "tags": ["TP", "Moteur"],
+      "tech": ["C++", "OpenGL"],
+      "cover": "assets/tps/Simplification/Octree.png",
+      "status": "Terminé",
+      "github": "https://github.com/Mateusz-Birembaut/HAI714I-Modelisation-et-geometrie-discrete/tree/main", 
+      "media": [
+        { "type": "image", "src": "assets/tps/Simplification/collage.jpg", "caption": "Simplification" },
+        { "type": "image", "src": "assets/tps/Simplification/Octree.png", "caption": "Capture des performances" }
       ]
     }
+
   ]
 }
