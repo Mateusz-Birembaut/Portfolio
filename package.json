@@ -6,7 +6,7 @@
     "fetch": "node scripts/fetch_repos.mjs",
     "build:data": "node scripts/build_data.mjs",
   "build": "npm run fetch && npm run build:data",
-  "dev": "python3 -m http.server 5173"
+  "dev": "npx http-server -p 5173 -c-1"
   },
   "engines": { "node": ">=18" }
 }
