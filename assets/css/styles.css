@@ -1219,8 +1219,37 @@ h1.page-title {
 	color: #00663a
 }
 
+/* Mobile / tablette : le sélecteur passe sur une 2e ligne, pleine largeur */
 @media (max-width: 860px) {
+	.header-inner {
+		flex-wrap: wrap;
+		height: auto;
+		gap: 0 16px
+	}
+
+	.brand,
+	.nav {
+		height: 44px
+	}
+
+	.header-tools {
+		order: 3;
+		flex: 1 0 100%;
+		margin: 0;
+		padding: 6px 0;
+		border-top: 1px solid var(--border)
+	}
+
 	.shading {
-		display: none
+		flex: 1
+	}
+
+	.shading button {
+		flex: 1;
+		padding: 7px 0
+	}
+
+	.inspector {
+		top: 100px
 	}
 }
