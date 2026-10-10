@@ -1,5 +1,137 @@
 {
   "projects": [
+    {
+      "slug": "slv",
+      "title": "SLV – Lecteur d'analyse cinématographique",
+      "summary": "Application de bureau C++ / Qt pour analyser des films : jusqu'à 4 vidéos en multivue, timeline découpée en plans, annotations, extraction de séquences et export.",
+      "description": "SLV (Numalyse Player) est une application d'analyse vidéo développée en C++ / Qt pendant mon stage à l'Université Paul Valéry, au sein d'une équipe de trois développeurs. Elle permet d'ouvrir une vidéo seule ou jusqu'à quatre vidéos en multivue, de naviguer image par image sur une timeline, de découper un film en plans (détection automatique avec PySceneDetect, via Python embarqué dans l'application), d'annoter des passages et d'extraire des séquences avec FFmpeg. La lecture repose sur libVLC et le traitement d'image sur OpenCV ; le décodage, la génération de vignettes et les exports tournent dans des threads dédiés pour garder l'interface fluide. Les analyses s'exportent en Word ou PowerPoint. L'application est multiplateforme (Windows, macOS) et traduite en six langues.",
+      "status": "En cours",
+      "period": "Février 2026 – aujourd'hui",
+      "role": "Stage puis développement, équipe de 3",
+      "tags": [
+        "Vidéo",
+        "Qt",
+        "Multithreading",
+        "Timeline",
+        "Annotations",
+        "Analyse de films",
+        "C++"
+      ],
+      "tech": [
+        "C++",
+        "Qt",
+        "libVLC",
+        "FFmpeg",
+        "OpenCV",
+        "Python",
+        "CMake"
+      ],
+      "github": "https://github.com/numalyse/SLV",
+      "cover": "assets/projects/slv/timeline_plans.jpg",
+      "media": [
+        {
+          "type": "image",
+          "src": "assets/projects/slv/timeline_plans.jpg",
+          "caption": "Timeline découpée en plans et panneau d'informations"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/slv/lecteur.jpg",
+          "caption": "Lecteur et timeline avec forme d'onde audio"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/slv/multivue.jpg",
+          "caption": "Mode multivue (4 vidéos)"
+        }
+      ]
+    },
+    {
+      "slug": "water-simulation",
+      "title": "WaterSimulation – Simulation d'eau en temps réel",
+      "summary": "Simulation d'eau en temps réel en C++ / OpenGL : shallow water + ondes d'Airy sur GPU, objets flottants, caustiques et god rays par projection de photons.",
+      "description": "Projet de Master réalisé à deux (avec Arthur Conde Salazar) : une simulation de fluide en temps réel en C++ avec Magnum (OpenGL). La surface combine un modèle shallow water pour le mouvement global (courants, inondations) et des ondes d'Airy calculées par FFT pour les vagues fines et dispersives, d'après Jeschke et Wojtan (2023, « Generalizing Shallow Water Simulations with Dispersive Surface Waves »). Le terrain est généré à partir de heightmaps. Côté physique, la hauteur et la vitesse de l'eau sont relues du GPU vers le CPU via des Pixel Buffer Objects sans bloquer la simulation ; chaque objet, approximé par des sphères, subit la poussée d'Archimède calculée sur son volume immergé, est entraîné par le courant et crée à son tour des vagues. Le rendu se fait en plusieurs passes : shadow map et position de la surface vue depuis la lumière, géométrie, puis caustiques et god rays obtenus par projection d'un maillage de photons réfractés à la surface (ray marching en espace image, filtrage), et composition finale. Le moteur est organisé en ECS et une interface ImGui permet de régler la simulation en direct.",
+      "status": "Terminé",
+      "period": "Octobre – Décembre 2025",
+      "role": "Projet de Master, en binôme",
+      "tags": [
+        "3D",
+        "Simulation de fluide",
+        "Shallow water",
+        "FFT",
+        "GPU",
+        "Caustiques",
+        "Physique",
+        "ECS",
+        "C++"
+      ],
+      "tech": [
+        "C++",
+        "OpenGL",
+        "GLSL",
+        "Magnum",
+        "ImGui",
+        "SDL2",
+        "CMake"
+      ],
+      "contributors": [
+        "arthur",
+        "mateusz"
+      ],
+      "github": "https://github.com/Mateusz-Birembaut/WaterSimulation",
+      "media": [
+        {
+          "type": "video",
+          "src": "assets/projects/water-simulation/demo.mp4",
+          "poster": "assets/projects/water-simulation/demo_poster.jpg",
+          "autoplay": false,
+          "wide": true,
+          "caption": "Démonstration complète (3 min 46)"
+        },
+        {
+          "type": "video",
+          "src": "assets/projects/water-simulation/boule_eau.mp4",
+          "poster": "assets/projects/water-simulation/boule_eau_poster.jpg",
+          "caption": "Interaction eau / objets flottants"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/water-simulation/shallow_water_airy.jpg",
+          "caption": "Shallow water + ondes d'Airy : vagues dispersives"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/water-simulation/shallow_water_seul.jpg",
+          "caption": "Même situation, shallow water seul"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/water-simulation/passe_surface_lumiere.jpg",
+          "caption": "Passe 1 · surface de l'eau vue depuis la lumière"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/water-simulation/passe_geometrie.jpg",
+          "caption": "Passe 2 · géométrie"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/water-simulation/passe_caustiques.jpg",
+          "caption": "Passe 3 · caustiques"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/water-simulation/passe_godrays.jpg",
+          "caption": "Passe 4 · god rays"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/water-simulation/composition_finale.jpg",
+          "caption": "Composition finale"
+        }
+      ],
+      "cover": "assets/projects/water-simulation/cover.jpg"
+    },
 
     {
       "slug": "orcoeur",
