@@ -5,40 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Portfolio — Mateusz Birembaut</title>
     <meta name="description" content="Portfolio de projets par Mateusz Birembaut" />
-  <meta name="robots" content="noindex, nofollow" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#141619" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
   <body>
     <header class="site-header">
       <div class="container header-inner">
-        <a class="brand" href="#/">Mateusz Birembaut</a>
-        <nav class="nav">
-          <a href="#/" class="nav-link">Accueil</a>
-          <a href="#/projets" class="nav-link">Projets</a>
-          <a href="#/tps" class="nav-link">TP</a>
-          <a href="#/repos" class="nav-link">Repos</a>
+        <a class="brand" href="#/"><span class="brand-mark" aria-hidden="true"></span><span class="name">M.Birembaut</span></a>
+        <div class="header-tools">
+          <div class="shading" role="group" aria-label="Mode de rendu">
+            <button type="button" data-mode="shaded" aria-pressed="true" title="Rendu normal">Shaded</button>
+            <button type="button" data-mode="wire" aria-pressed="false" title="Fil de fer">Wire</button>
+            <button type="button" data-mode="normals" aria-pressed="false" title="Normales">Normals</button>
+          </div>
+        </div>
+        <nav class="nav" aria-label="Navigation principale">
+          <a href="#/" class="nav-link" data-route=""><span class="key">1</span>Accueil</a>
+          <a href="#/projets" class="nav-link" data-route="projets"><span class="key">2</span>Projets</a>
+          <a href="#/tps" class="nav-link" data-route="tps"><span class="key">3</span>TP</a>
         </nav>
       </div>
     </header>
-
-    <aside id="constructionBanner" class="notice construction" role="status" aria-live="polite">
-      <div class="container notice-inner">
-        <span>🚧 En construction — le contenu évolue.</span>
-        <button id="constructionClose" class="btn secondary" aria-label="Masquer le bandeau">×</button>
-      </div>
-    </aside>
 
     <main class="container" id="app" aria-live="polite"></main>
 
     <footer class="site-footer">
       <div class="container footer-inner">
         <span>© <span id="year"></span> Mateusz Birembaut</span>
-        <a href="https://github.com/Mateusz-Birembaut" target="_blank" rel="noopener">GitHub</a>
+        <span class="wide">C++ · Qt · OpenGL · Vulkan · Montpellier</span>
+        <a href="https://github.com/Mateusz-Birembaut" target="_blank" rel="noopener">GitHub ↗</a>
       </div>
     </footer>
+
+    <!-- HUD : stats façon moteur (rempli par app.js) -->
+    <div class="hud" id="hud" aria-hidden="true">
+      <span>FPS</span><b id="hudFps">--</b>
+      <span class="wide">CURSOR</span><b class="wide"><span class="x" id="hudX">0000</span> <span class="y" id="hudY">0000</span></b>
+      <span class="wide">SCENE</span><b class="wide" id="hudScene">accueil</b>
+    </div>
 
     <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-label="Agrandir l'image">
       <button class="lightbox-close" aria-label="Fermer" id="lightboxClose">×</button>
@@ -46,6 +54,25 @@
       <figcaption id="lightboxCaption"></figcaption>
     </div>
 
+    <!-- Filtres SVG pour les modes de rendu (wire = contours, normals = fausses normales) -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <filter id="fx-edges" color-interpolation-filters="sRGB">
+        <feColorMatrix type="matrix" values=".33 .33 .33 0 0  .33 .33 .33 0 0  .33 .33 .33 0 0  0 0 0 1 0" result="g"/>
+        <feConvolveMatrix in="g" order="3" kernelMatrix="-1 -1 -1 -1 8 -1 -1 -1 -1" preserveAlpha="true" result="e"/>
+        <feComponentTransfer in="e"><feFuncR type="linear" slope="4"/><feFuncG type="linear" slope="4"/><feFuncB type="linear" slope="4"/></feComponentTransfer>
+      </filter>
+      <filter id="fx-normals" color-interpolation-filters="sRGB">
+        <feColorMatrix type="matrix" values=".33 .33 .33 0 0  .33 .33 .33 0 0  .33 .33 .33 0 0  0 0 0 1 0" result="g"/>
+        <feConvolveMatrix in="g" order="3" kernelMatrix="-1 0 1 -2 0 2 -1 0 1" divisor="1" bias=".5" preserveAlpha="true" result="dx"/>
+        <feConvolveMatrix in="g" order="3" kernelMatrix="-1 -2 -1 0 0 0 1 2 1" divisor="1" bias=".5" preserveAlpha="true" result="dy"/>
+        <feColorMatrix in="dx" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="r"/>
+        <feColorMatrix in="dy" type="matrix" values="0 0 0 0 0  1 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="gg"/>
+        <feComposite in="r" in2="gg" operator="arithmetic" k2="1" k3="1" result="rg"/>
+        <feColorMatrix in="rg" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 0 0 1  0 0 0 1 0"/>
+      </filter>
+    </svg>
+
     <script src="assets/js/app.js" type="module"></script>
+    <script src="assets/js/fx.js" type="module"></script>
   </body>
 </html>
