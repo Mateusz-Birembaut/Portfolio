@@ -934,7 +934,8 @@ h1.page-title {
 
 .about .contact {
 	font-family: var(--font-mono);
-	font-size: .85rem
+	font-size: .85rem;
+	overflow-wrap: anywhere
 }
 
 .about .contact .sep {
@@ -1066,8 +1067,9 @@ h1.page-title {
 		display: none
 	}
 
-	.brand .name {
-		display: none
+	.brand {
+		font-size: .74rem;
+		gap: 8px
 	}
 
 	.nav-link {
@@ -1076,6 +1078,23 @@ h1.page-title {
 
 	.footer-inner .wide {
 		display: none
+	}
+}
+
+/* Très petits écrans (iPhone SE…) : on resserre le header pour tout garder sur une ligne */
+@media (max-width: 380px) {
+	.header-inner {
+		gap: 0 10px
+	}
+
+	.brand {
+		font-size: .68rem;
+		letter-spacing: .03em
+	}
+
+	.nav-link {
+		padding: 0 8px;
+		font-size: .7rem
 	}
 }
 
