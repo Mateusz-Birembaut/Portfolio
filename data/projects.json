@@ -9,8 +9,8 @@
         "title": "SLV – Film analysis video player",
         "summary": "C++ / Qt desktop application for analysing films: up to 4 videos in multi-view, a timeline split into shots, annotations, sequence extraction and export.",
         "description": "SLV (Numalyse Player) is a video analysis application developed in C++ / Qt during my internship at Université Paul Valéry, as part of a team of three developers. It can open a single video or up to four videos in multi-view, step through a timeline frame by frame, split a film into shots (automatic detection with PySceneDetect, through Python embedded in the application), annotate passages and extract sequences with FFmpeg. Playback relies on libVLC and image processing on OpenCV; decoding, thumbnail generation and exports run on dedicated threads to keep the interface responsive. Analyses can be exported to Word or PowerPoint. The application is cross-platform (Windows, macOS) and translated into six languages.",
-        "period": "February 2026 – present",
-        "role": "Internship, then development; team of 3",
+        "period": "February – August 2026",
+        "role": "Internship, team of 3",
         "tags": [
           "Video",
           "Qt",
@@ -21,9 +21,9 @@
           "C++"
         ]
       },
-      "status": "En cours",
-      "period": "Février 2026 – aujourd'hui",
-      "role": "Stage puis développement, équipe de 3",
+      "status": "Terminé",
+      "period": "Février – Août 2026",
+      "role": "Stage, équipe de 3",
       "tags": [
         "Vidéo",
         "Qt",

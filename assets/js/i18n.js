@@ -1,5 +1,6 @@
 // i18n.js — français / anglais.
 // - Langue choisie : ?lang=en|fr dans l'URL (lien partageable), sinon choix mémorisé, sinon langue du navigateur.
+// - L'URL affiche toujours la langue courante (?lang=fr / ?lang=en) : on peut la copier et l'envoyer telle quelle.
 // - Textes de l'interface : dictionnaire ci-dessous.
 // - Contenu des projets : bloc "en" dans projects.json / tps.json (+ "caption_en" sur les médias).
 
@@ -157,6 +158,16 @@ function detectLang() {
 
 let lang = detectLang();
 
+// Écrit ?lang=xx dans l'adresse sans recharger la page (garde le #/projet éventuel)
+function syncUrl() {
+	try {
+		const url = new URL(location.href);
+		if (url.searchParams.get('lang') === lang) return;
+		url.searchParams.set('lang', lang);
+		history.replaceState(history.state, '', url.pathname + url.search + url.hash);
+	} catch { }
+}
+
 export const getLang = () => lang;
 
 // Texte d'interface
@@ -194,18 +205,15 @@ export function setLang(next) {
 	if (!LANGS.includes(next) || next === lang) return;
 	lang = next;
 	try { localStorage.setItem('lang', next); } catch { }
-	// garde l'URL propre : retire ?lang= pour que le choix du bouton prime
-	try {
-		const url = new URL(location.href);
-		if (url.searchParams.has('lang')) {
-			url.searchParams.delete('lang');
-			history.replaceState(null, '', url.pathname + url.search + url.hash);
-		}
-	} catch { }
+	syncUrl();
 	applyStatic();
 	window.dispatchEvent(new CustomEvent('langchange', { detail: { lang } }));
 }
 
+syncUrl();
+// Navigation (clic sur un projet, retour arrière…) : l'adresse garde la langue affichée
+window.addEventListener('hashchange', syncUrl);
+window.addEventListener('popstate', syncUrl);
 applyStatic();
 document.querySelectorAll('.lang-switch button').forEach(b => {
 	b.addEventListener('click', () => setLang(b.dataset.lang));
