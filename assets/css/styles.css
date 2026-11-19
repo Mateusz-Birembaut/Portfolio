@@ -1282,28 +1282,38 @@ h1.page-title {
 	color: #00663a
 }
 
-/* ---------- Bouton thème clair / sombre ---------- */
-.theme-toggle {
-	display: grid;
-	place-items: center;
-	width: 30px;
-	height: 25px;
-	flex: none;
-	padding: 0;
-	color: var(--muted);
-	background: transparent;
-	border: 1px solid var(--border);
-	cursor: pointer
+/* ---------- Préférences (thème + langue) : tout à droite du header ---------- */
+.header-prefs {
+	display: flex;
+	align-items: stretch;
+	flex: none
 }
 
-.theme-toggle:hover {
-	color: var(--accent);
-	border-color: var(--accent)
+.pref-btn {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 0 16px;
+	font-family: var(--font-mono);
+	font-size: .78rem;
+	color: var(--text);
+	background: transparent;
+	border: 0;
+	border-right: 1px solid var(--border);
+	cursor: pointer;
+	white-space: nowrap
+}
+
+.pref-btn:hover {
+	background: var(--panel-hover);
+	color: var(--accent)
 }
 
 .theme-toggle svg {
-	width: 15px;
-	height: 15px
+	width: 16px;
+	height: 16px;
+	color: var(--accent);
+	flex: none
 }
 
 /* En sombre on propose le soleil, en clair la lune */
@@ -1314,6 +1324,58 @@ h1.page-title {
 
 [data-theme="light"] .theme-toggle .moon {
 	display: block
+}
+
+/* PC : le bouton thème se colle à l'onglet précédent (annule l'écart du header),
+   pour que toute la case grise au survol, de la bordure de l'onglet à la sienne */
+@media (min-width: 861px) {
+	.header-prefs {
+		margin-left: -16px
+	}
+}
+
+/* Sélecteur de langue FR | EN */
+.lang-switch {
+	display: flex;
+	align-items: center;
+	padding: 0 0 0 16px
+}
+
+.lang-switch button {
+	padding: 5px 10px;
+	font-family: var(--font-mono);
+	font-size: .75rem;
+	font-weight: 500;
+	letter-spacing: .06em;
+	color: var(--muted);
+	background: transparent;
+	border: 1px solid var(--border);
+	cursor: pointer
+}
+
+.lang-switch button+button {
+	border-left: 0
+}
+
+.lang-switch button:hover {
+	color: var(--text)
+}
+
+.lang-switch button[aria-pressed="true"] {
+	color: var(--accent-ink);
+	background: var(--accent);
+	border-color: var(--accent)
+}
+
+/* Écrans moyens : on garde l'icône, on cache le libellé du thème */
+@media (max-width: 1080px) {
+	.theme-label {
+		display: none
+	}
+
+	.pref-btn {
+		padding: 0 13px
+	}
 }
 
 /* ---------- Thème clair + mode Wire : traits sombres sur papier ---------- */
@@ -1343,12 +1405,42 @@ h1.page-title {
 		height: 44px
 	}
 
+	/* 2e ligne : modes de rendu + préférences. Le ::after force le retour à la ligne et trace le séparateur */
+	.header-inner::after {
+		content: "";
+		order: 2;
+		flex-basis: 100%;
+		height: 0;
+		border-top: 1px solid var(--border)
+	}
+
 	.header-tools {
 		order: 3;
-		flex: 1 0 100%;
+		flex: 1 1 0;
+		min-width: 0;
 		margin: 0;
+		padding: 6px 0
+	}
+
+	.header-prefs {
+		order: 4;
 		padding: 6px 0;
-		border-top: 1px solid var(--border)
+		gap: 10px
+	}
+
+	.pref-btn {
+		width: 40px;
+		padding: 0;
+		justify-content: center;
+		border: 1px solid var(--border)
+	}
+
+	.lang-switch {
+		padding: 0
+	}
+
+	.lang-switch button {
+		height: 100%
 	}
 
 	.shading {
@@ -1358,12 +1450,6 @@ h1.page-title {
 	.shading button {
 		flex: 1;
 		padding: 7px 0
-	}
-
-	.theme-toggle {
-		width: 40px;
-		height: auto;
-		align-self: stretch
 	}
 
 	.inspector {

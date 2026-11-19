@@ -1,3 +1,5 @@
+import { t, loc, locCaption } from './i18n.js';
+
 const state = { projects: [], tps: [], loaded: false, tpsLoaded: false };
 
 const byId = (id) => document.getElementById(id);
@@ -20,7 +22,7 @@ async function loadData() {
 		return state.projects;
 	} catch (err) {
 		console.error('Failed to load projects.json', err);
-		appEl.innerHTML = `<div class="error">ERR · Impossible de charger les projets. Vérifiez data/projects.json.</div>`;
+		appEl.innerHTML = `<div class="error">${t('err.load')}</div>`;
 		return [];
 	}
 }
@@ -48,12 +50,13 @@ const pad = (n, w = 2) => String(n).padStart(w, '0');
 
 /* ---------- Petits composants ---------- */
 
-// Statut → pastille colorée (vert = terminé, orange = en cours)
+// Statut → pastille colorée (vert = terminé, orange = en cours). Le JSON garde le statut en français.
 function statusBadge(status) {
 	const s = status || 'Actif';
 	const lower = s.toLowerCase();
-	const cls = lower.includes('termin') ? 'done' : (lower.includes('cours') || lower.includes('actif')) ? 'wip' : '';
-	return `<span class="status ${cls}">${escapeHtml(s)}</span>`;
+	const key = lower.includes('termin') ? 'done' : lower.includes('cours') ? 'wip' : lower.includes('actif') ? 'active' : '';
+	const cls = key === 'done' ? 'done' : key ? 'wip' : '';
+	return `<span class="status ${cls}">${escapeHtml(key ? t('status.' + key) : s)}</span>`;
 }
 
 // Remplace les tags en bulles par une ligne de specs « C++ / OpenGL / ImGui »
@@ -63,7 +66,7 @@ function specLine(p, max = 4) {
 	return `<div class="spec">${items.map(escapeHtml).join('<span class="sep">/</span>')}</div>`;
 }
 
-function sectionHead(label, count, unit = 'objets') {
+function sectionHead(label, count, unit = t('unit.objects')) {
 	const c = typeof count === 'number' ? `<span class="count">${pad(count)} ${unit}</span>` : '';
 	return `<h2 class="section-head"><span>${escapeHtml(label)}</span><span class="rule"></span>${c}</h2>`;
 }
@@ -72,7 +75,7 @@ function sectionHead(label, count, unit = 'objets') {
 
 function renderProjectCard(p, base = 'project', index = 0) {
 	const cover = p.cover || (p.media && p.media.find(m => m.type === 'image')?.src);
-	const empty = `<div class="thumb-empty"><span>NO PREVIEW</span></div>`;
+	const empty = `<div class="thumb-empty"><span>${t('card.noPreview')}</span></div>`;
 	// Si l'image ne charge pas, on affiche le motif wireframe
 	const coverEl = cover
 		? `<img class="thumb" src="${cover}" alt="" loading="lazy" onerror="this.outerHTML='${empty.replaceAll('"', '&quot;')}'">`
@@ -84,8 +87,8 @@ function renderProjectCard(p, base = 'project', index = 0) {
     <div class="card-head"><span class="id">${prefix}_${pad(index + 1)}</span>${statusBadge(p.status)}</div>
     <div class="thumb-wrap">${coverEl}</div>
     <div class="content">
-      <h3 class="title"><a class="stretched" href="${link}">${escapeHtml(p.title)}</a></h3>
-      <p class="muted clamp-2">${escapeHtml(p.summary || '')}</p>
+      <h3 class="title"><a class="stretched" href="${link}">${escapeHtml(loc(p, 'title'))}</a></h3>
+      <p class="muted clamp-2">${escapeHtml(loc(p, 'summary') || '')}</p>
       ${specLine(p)}
     </div>
   </article>`;
@@ -99,24 +102,25 @@ function renderGrid(items, base = 'project') {
 
 function renderMediaItem(m, i) {
 	const label = `${m.type.toUpperCase()}_${pad(i + 1)}`;
+	const caption = locCaption(m);
 	if (m.type === 'image') {
-		const alt = escapeHtml(m.caption || 'Aperçu');
-		return `<figure class="media-item${m.wide ? ' wide' : ''}"><img src="${m.src}" alt="${alt}" data-caption="${alt}" class="media" loading="lazy"><figcaption>${label}${m.caption ? ' · ' + alt : ''}</figcaption></figure>`;
+		const alt = escapeHtml(caption || t('media.preview'));
+		return `<figure class="media-item${m.wide ? ' wide' : ''}"><img src="${m.src}" alt="${alt}" data-caption="${alt}" class="media" loading="lazy"><figcaption>${label}${caption ? ' · ' + alt : ''}</figcaption></figure>`;
 	}
 	if (m.type === 'video') {
-		const cap = escapeHtml(m.caption || 'Vidéo');
+		const cap = escapeHtml(caption || t('media.video'));
 		// Clip court : lecture auto en boucle. Vidéo longue ("autoplay": false) : poster + lecture au clic.
 		const auto = m.autoplay !== false;
 		const attrs = auto ? 'autoplay muted loop playsinline preload="metadata"' : 'muted playsinline preload="none"';
 		const poster = m.poster ? ` poster="${m.poster}"` : '';
-		return `<figure class="media-item${m.wide ? ' wide' : ''}"><video src="${m.src}"${poster} ${attrs} controls aria-label="${cap}"></video><figcaption>${label}${m.caption ? ' · ' + cap : ''}</figcaption></figure>`;
+		return `<figure class="media-item${m.wide ? ' wide' : ''}"><video src="${m.src}"${poster} ${attrs} controls aria-label="${cap}"></video><figcaption>${label}${caption ? ' · ' + cap : ''}</figcaption></figure>`;
 	}
 	if (m.type === 'pdf') {
-		const cap = escapeHtml(m.caption || 'Document PDF');
-		return `<a class="pdf" href="${m.src}" target="_blank" rel="noopener" title="Ouvrir le PDF : ${cap}"><span class="ext">.pdf</span><span>${cap} ↗</span></a>`;
+		const cap = escapeHtml(caption || t('media.pdf'));
+		return `<a class="pdf" href="${m.src}" target="_blank" rel="noopener" title="${t('media.openPdf')} : ${cap}"><span class="ext">.pdf</span><span>${cap} ↗</span></a>`;
 	}
 	if (m.type === 'link') {
-		const cap = escapeHtml(m.caption || m.href);
+		const cap = escapeHtml(caption || m.href);
 		return `<a class="btn secondary" href="${m.href}" target="_blank" rel="noopener">${cap} ↗</a>`;
 	}
 	return '';
@@ -138,7 +142,7 @@ function findProjectBySlug(slug) {
 
 function breadcrumbs(path, base = 'project') {
 	if (!path || !path.length) return '';
-	const rootLabel = base === 'tp' ? 'tp' : 'projets';
+	const rootLabel = base === 'tp' ? t('crumb.tps') : t('crumb.projects');
 	const rootHref = base === 'tp' ? '#/tps' : '#/projets';
 	const detailBase = base === 'tp' ? 'tp' : 'project';
 	const sep = `<span class="sep">/</span>`;
@@ -149,38 +153,41 @@ function breadcrumbs(path, base = 'project') {
 		parts.push(`<a href="#/${detailBase}/${encodeURIComponent(path[0].slug)}">${escapeHtml(path[0].slug)}</a>`);
 		parts.push(`<span>${escapeHtml(path[1].slug)}</span>`);
 	}
-	return `<nav class="breadcrumbs" aria-label="Fil d'Ariane">${parts.join(sep)}</nav>`;
+	return `<nav class="breadcrumbs" aria-label="${t('detail.breadcrumb')}">${parts.join(sep)}</nav>`;
 }
 
 function renderProjectDetail(p, parent, base = 'project') {
-	const gh = p.github ? `<a class="btn" href="${p.github}" target="_blank" rel="noopener">Voir sur GitHub ↗</a>` : '';
-	const live = p.demo ? `<a class="btn secondary" href="${p.demo}" target="_blank" rel="noopener">Démo ↗</a>` : '';
+	const gh = p.github ? `<a class="btn" href="${p.github}" target="_blank" rel="noopener">${t('detail.github')} ↗</a>` : '';
+	const live = p.demo ? `<a class="btn secondary" href="${p.demo}" target="_blank" rel="noopener">${t('detail.demo')} ↗</a>` : '';
 	const media = (p.media || []).map(renderMediaItem).join('');
 	const subBase = base === 'tp' ? 'tp' : 'project';
-	const subs = (p.subprojects || []).map(sp => `<li><a href="#/${subBase}/${encodeURIComponent(sp.slug)}">${escapeHtml(sp.title)}</a> — <span class="muted">${escapeHtml(sp.summary || '')}</span></li>`).join('');
+	const subs = (p.subprojects || []).map(sp => `<li><a href="#/${subBase}/${encodeURIComponent(sp.slug)}">${escapeHtml(loc(sp, 'title'))}</a> — <span class="muted">${escapeHtml(loc(sp, 'summary') || '')}</span></li>`).join('');
 	const row = (k, v) => v ? `<dt>${k}</dt><dd>${v}</dd>` : '';
-	const tags = (p.tags || []).length ? `<span class="tag-list">${p.tags.map(t => `<span>${escapeHtml(t)}</span>`).join('')}</span>` : '';
+	const tagList = loc(p, 'tags') || [];
+	const tags = tagList.length ? `<span class="tag-list">${tagList.map(tag => `<span>${escapeHtml(tag)}</span>`).join('')}</span>` : '';
+	const period = loc(p, 'period');
+	const role = loc(p, 'role');
 	return `
     ${breadcrumbs(parent ? [parent, p] : [p], base)}
-    <h1 class="detail-title">${escapeHtml(p.title)}</h1>
+    <h1 class="detail-title">${escapeHtml(loc(p, 'title'))}</h1>
     <div class="project-hero">
       <section class="desc">
-        <p>${escapeHtml(p.description || p.summary || '')}</p>
+        <p>${escapeHtml(loc(p, 'description') || loc(p, 'summary') || '')}</p>
         <div class="actions">${gh}${live}</div>
       </section>
-      <aside class="inspector" aria-label="Informations du projet">
-        <div class="inspector-head"><span>Inspecteur</span><span>${escapeHtml(p.slug)}</span></div>
+      <aside class="inspector" aria-label="${t('detail.infoLabel')}">
+        <div class="inspector-head"><span>${t('detail.inspector')}</span><span>${escapeHtml(p.slug)}</span></div>
         <dl>
-          ${row('Statut', statusBadge(p.status))}
-          ${row('Période', p.period ? escapeHtml(p.period) : '')}
-          ${row('Rôle', p.role ? escapeHtml(p.role) : '')}
-          ${row('Stack', p.tech ? escapeHtml(p.tech.join(', ')) : '')}
-          ${row('Tags', tags)}
+          ${row(t('detail.status'), statusBadge(p.status))}
+          ${row(t('detail.period'), period ? escapeHtml(period) : '')}
+          ${row(t('detail.role'), role ? escapeHtml(role) : '')}
+          ${row(t('detail.stack'), p.tech ? escapeHtml(p.tech.join(', ')) : '')}
+          ${row(t('detail.tags'), tags)}
         </dl>
       </aside>
     </div>
-    ${media ? `${sectionHead('Médias', (p.media || []).length, 'fichiers')}<div class="media-grid">${media}</div>` : ''}
-    ${subs ? `<div class="subprojects">${sectionHead('Sous-projets', (p.subprojects || []).length)}<ul>${subs}</ul></div>` : ''}
+    ${media ? `${sectionHead(t('section.media'), (p.media || []).length, t('unit.files'))}<div class="media-grid">${media}</div>` : ''}
+    ${subs ? `<div class="subprojects">${sectionHead(t('section.subprojects'), (p.subprojects || []).length)}<ul>${subs}</ul></div>` : ''}
   `;
 }
 
@@ -191,9 +198,9 @@ function renderHero() {
     <section class="hero">
       <p class="scene-label"><span>●</span> scene://portfolio — loaded</p>
       <h1>Mateusz<br><span class="last">Birembaut</span></h1>
-      <p class="lead">Développeur <strong>C++</strong>, des applications de bureau (Qt) au rendu 3D temps réel&nbsp;: moteurs, ray tracing, simulation sur GPU, traitement de maillages et de vidéo. Diplômé d'un <strong>Master Informatique Image &amp; 3D</strong> (Montpellier, 2026).</p>
+      <p class="lead">${t('hero.lead')}</p>
       <ul class="hero-specs">
-        <li><span class="dot"></span>Disponible · recherche un poste en C++</li>
+        <li><span class="dot"></span>${t('hero.available')}</li>
         <li><span class="k">LOC</span>Montpellier</li>
         <li><span class="k">STACK</span>C++ · Qt · OpenGL · Vulkan</li>
       </ul>
@@ -213,9 +220,9 @@ function renderHero() {
 function renderAbout() {
 	return `
     <section>
-      ${sectionHead('À propos')}
+      ${sectionHead(t('about.title'))}
       <div class="about">
-        <p>Diplômé en 2026 d'un Master Informatique spécialité Image &amp; 3D à la Faculté des Sciences de Montpellier, je recherche un poste de développeur C++ : applications de bureau, outils, moteurs ou rendu 3D. Dernière expérience : stage à l'Université Paul Valéry sur <a href="#/project/slv">SLV</a>, une application d'analyse vidéo multivue en C++ / Qt (libVLC, FFmpeg, OpenCV).</p>
+        <p>${t('about.text')}</p>
         <p class="contact"><a href="mailto:mateusz.birembaut.pro@gmail.com">mateusz.birembaut.pro@gmail.com</a><span class="sep">/</span><a href="https://github.com/Mateusz-Birembaut" target="_blank" rel="noopener">GitHub ↗</a></p>
       </div>
     </section>`;
@@ -226,12 +233,12 @@ function renderList(projects, base = 'project') {
 	const rest = projects.filter(p => !p.pinned);
 	const pinnedBlock = pinned.length ? `
     <section>
-      ${sectionHead('Projets épinglés', pinned.length)}
+      ${sectionHead(t('section.pinned'), pinned.length)}
       ${renderGrid(pinned, base)}
     </section>` : '';
 	const allBlock = `
     <section>
-      ${sectionHead(pinned.length ? 'Tous les projets' : 'Projets', projects.length)}
+      ${sectionHead(pinned.length ? t('section.allProjects') : t('section.projects'), projects.length)}
       ${renderGrid([...pinned, ...rest], base)}
     </section>`;
 	return `${pinnedBlock}${allBlock}`;
@@ -245,14 +252,14 @@ function setActiveNav(pathRoot) {
 
 /* ---------- Routeur ---------- */
 
-async function router() {
+async function router({ keepScroll = false } = {}) {
 	await loadData();
 	const hash = location.hash || '#/';
 	const parts = hash.slice(2).split('/');
 	const root = parts[0] || '';
 	setActiveNav(['', 'projets', 'tps'].includes(root) ? root : (root === 'tp' ? 'tps' : root === 'project' ? 'projets' : ''));
-	setHudScene(root ? parts.map(decodeURIComponent).join('/') : 'accueil');
-	window.scrollTo(0, 0);
+	setHudScene(root ? parts.map(decodeURIComponent).join('/') : t('hud.home'));
+	if (!keepScroll) window.scrollTo(0, 0);
 
 	// Accueil
 	if (!root) {
@@ -261,7 +268,7 @@ async function router() {
 		const previewTps = (state.tps || []).slice(0, 2);
 		const tpBlock = previewTps.length ? `
       <section>
-        ${sectionHead('Travaux pratiques', state.tps.length)}
+        ${sectionHead(t('section.tps'), state.tps.length)}
         ${renderGrid(previewTps, 'tp')}
       </section>` : '';
 		appEl.innerHTML = renderHero() + renderList(manual, 'project') + tpBlock + renderAbout();
@@ -273,9 +280,9 @@ async function router() {
 	if (root === 'tps') {
 		await loadTPs();
 		appEl.innerHTML = `
-      <h1 class="page-title">Travaux pratiques</h1>
+      <h1 class="page-title">${t('page.tps')}</h1>
       <section>
-        ${sectionHead('TP', state.tps.length)}
+        ${sectionHead(t('section.tp'), state.tps.length)}
         ${renderGrid(state.tps, 'tp')}
       </section>`;
 		return;
@@ -284,7 +291,7 @@ async function router() {
 	// Liste des projets
 	if (root === 'projets') {
 		const manual = state.projects.filter(p => (p.source || 'manual') === 'manual');
-		appEl.innerHTML = `<h1 class="page-title">Projets</h1>${renderList(manual, 'project')}`;
+		appEl.innerHTML = `<h1 class="page-title">${t('page.projects')}</h1>${renderList(manual, 'project')}`;
 		return;
 	}
 
@@ -293,7 +300,7 @@ async function router() {
 	if (root === 'project' && parts[1]) {
 		const slug = decodeURIComponent(parts[1]);
 		const res = findProjectBySlug(slug);
-		if (!res) { appEl.innerHTML = `<div class="error">404 · Projet introuvable.</div>`; return; }
+		if (!res) { appEl.innerHTML = `<div class="error">${t('err.project404')}</div>`; return; }
 		appEl.innerHTML = renderProjectDetail(res.project, res.parent, 'project');
 		bindMediaLightbox();
 		return;
@@ -304,7 +311,7 @@ async function router() {
 		await loadTPs();
 		const slug = decodeURIComponent(parts[1]);
 		const tp = state.tps.find(t => t.slug === slug);
-		if (!tp) { appEl.innerHTML = `<div class="error">404 · TP introuvable.</div>`; return; }
+		if (!tp) { appEl.innerHTML = `<div class="error">${t('err.tp404')}</div>`; return; }
 		appEl.innerHTML = renderProjectDetail(tp, undefined, 'tp');
 		bindMediaLightbox();
 		return;
@@ -374,5 +381,7 @@ window.addEventListener('keydown', (e) => {
 	if (routes[e.key]) location.hash = routes[e.key];
 });
 
-window.addEventListener('hashchange', router);
+window.addEventListener('hashchange', () => router());
+// Changement de langue : on re-rend la page courante sans remonter en haut
+window.addEventListener('langchange', () => router({ keepScroll: true }));
 router();

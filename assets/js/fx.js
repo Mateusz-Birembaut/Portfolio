@@ -1,6 +1,8 @@
 // fx.js — modes de rendu du viewport : shaded / wire / normals.
 // Les filtres SVG (#fx-edges, #fx-normals) sont dans index.html, les styles dans styles.css.
 
+import { t } from './i18n.js';
+
 const root = document.documentElement;
 
 /* ==========================================================================
@@ -30,13 +32,16 @@ try { setShading(sessionStorage.getItem('shading') || 'shaded'); } catch { setSh
    ========================================================================== */
 
 const themeBtn = document.getElementById('themeToggle');
+const themeLabel = document.getElementById('themeLabel');
 const themeMeta = document.querySelector('meta[name="theme-color"]');
 const systemLight = window.matchMedia('(prefers-color-scheme: light)');
 
 function applyTheme(theme) {
 	root.dataset.theme = theme;
 	if (themeMeta) themeMeta.content = theme === 'light' ? '#ffffff' : '#141619';
-	if (themeBtn) themeBtn.setAttribute('aria-label', theme === 'light' ? 'Passer en thème sombre' : 'Passer en thème clair');
+	if (themeBtn) themeBtn.setAttribute('aria-label', t(theme === 'light' ? 'theme.toDark' : 'theme.toLight'));
+	// le libellé indique le thème vers lequel on bascule (comme l'icône)
+	if (themeLabel) themeLabel.textContent = t(theme === 'light' ? 'theme.dark' : 'theme.light');
 }
 
 function storedTheme() {
@@ -55,5 +60,8 @@ themeBtn?.addEventListener('click', () => {
 systemLight.addEventListener?.('change', (e) => {
 	if (!storedTheme()) applyTheme(e.matches ? 'light' : 'dark');
 });
+
+// Le libellé du bouton thème suit la langue
+window.addEventListener('langchange', () => applyTheme(root.dataset.theme === 'light' ? 'light' : 'dark'));
 
 export { setShading, applyTheme };

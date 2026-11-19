@@ -5,35 +5,103 @@
       "title": "TP - Moteur de jeu",
       "summary": "Création d'un mini moteur",
       "description": "Création d'un mini moteur de jeu : génération de terrain par heightmap, gestion des LODs, frustum culling et partitionnement de l'espace avec un kd-tree.",
-      "tags": ["TP", "Moteur"],
-      "tech": ["C++", "OpenGL", "ImGui"],
+      "en": {
+        "title": "Lab – Game engine",
+        "summary": "Building a small game engine",
+        "description": "Building a small game engine: heightmap terrain generation, LOD management, frustum culling and space partitioning with a kd-tree.",
+        "tags": [
+          "Lab",
+          "Engine"
+        ]
+      },
+      "tags": [
+        "TP",
+        "Moteur"
+      ],
+      "tech": [
+        "C++",
+        "OpenGL",
+        "ImGui"
+      ],
       "cover": "assets/tps/moteur/moteur.png",
       "status": "Terminé",
-      "github": "https://github.com/Mateusz-Birembaut/HAI819I---Moteur-de-Jeux/tree/main", 
+      "github": "https://github.com/Mateusz-Birembaut/HAI819I---Moteur-de-Jeux/tree/main",
       "media": [
-        { "type": "image", "src": "assets/tps/moteur/moteur.png", "caption": "Capture du moteur" },
-        { "type": "image", "src": "assets/tps/moteur/frustum1.png", "caption": "Capture des performances" },
-        { "type": "image", "src": "assets/tps/moteur/frustum2.png", "caption": "Capture des performances" },
-        { "type": "pdf", "src": "assets/tps/moteur/TP3_Moteur_Mateusz_BIREMBAUT.pdf", "caption": "Rapport 1" },
-        { "type": "pdf", "src": "assets/tps/moteur/TP4_Moteur_Mateusz_BIREMBAUT.pdf", "caption": "Rapport 2" }
+        {
+          "type": "image",
+          "src": "assets/tps/moteur/moteur.png",
+          "caption": "Capture du moteur",
+          "caption_en": "Engine screenshot"
+        },
+        {
+          "type": "image",
+          "src": "assets/tps/moteur/frustum1.png",
+          "caption": "Capture des performances",
+          "caption_en": "Performance capture"
+        },
+        {
+          "type": "image",
+          "src": "assets/tps/moteur/frustum2.png",
+          "caption": "Capture des performances",
+          "caption_en": "Performance capture"
+        },
+        {
+          "type": "pdf",
+          "src": "assets/tps/moteur/TP3_Moteur_Mateusz_BIREMBAUT.pdf",
+          "caption": "Rapport 1",
+          "caption_en": "Report 1"
+        },
+        {
+          "type": "pdf",
+          "src": "assets/tps/moteur/TP4_Moteur_Mateusz_BIREMBAUT.pdf",
+          "caption": "Rapport 2",
+          "caption_en": "Report 2"
+        }
       ]
     },
-
     {
       "slug": "Simplification",
       "title": "TP - Simplification de Maillage",
       "summary": "Simplification par partitionnement",
-      "description": "Simplification de maillage par partitionnement : une méthode avec une grille uniforme et une autre avec un octree.",      
-      "tags": ["TP", "Simplification", "Maillage", "Visualisation"],
-      "tech": ["C++", "OpenGL"],
+      "description": "Simplification de maillage par partitionnement : une méthode avec une grille uniforme et une autre avec un octree.",
+      "en": {
+        "title": "Lab – Mesh simplification",
+        "summary": "Simplification by space partitioning",
+        "description": "Mesh simplification by space partitioning: one method with a uniform grid and another with an octree.",
+        "tags": [
+          "Lab",
+          "Simplification",
+          "Mesh",
+          "Visualisation"
+        ]
+      },
+      "tags": [
+        "TP",
+        "Simplification",
+        "Maillage",
+        "Visualisation"
+      ],
+      "tech": [
+        "C++",
+        "OpenGL"
+      ],
       "cover": "assets/tps/Simplification/Octree.png",
       "status": "Terminé",
-      "github": "https://github.com/Mateusz-Birembaut/HAI714I-Modelisation-et-geometrie-discrete/tree/main", 
+      "github": "https://github.com/Mateusz-Birembaut/HAI714I-Modelisation-et-geometrie-discrete/tree/main",
       "media": [
-        { "type": "image", "src": "assets/tps/Simplification/collage.jpg", "caption": "Simplification" },
-        { "type": "image", "src": "assets/tps/Simplification/Octree.png", "caption": "Capture des performances" }
+        {
+          "type": "image",
+          "src": "assets/tps/Simplification/collage.jpg",
+          "caption": "Simplification",
+          "caption_en": "Simplification"
+        },
+        {
+          "type": "image",
+          "src": "assets/tps/Simplification/Octree.png",
+          "caption": "Capture des performances",
+          "caption_en": "Performance capture"
+        }
       ]
     }
-
   ]
 }
