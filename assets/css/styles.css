@@ -34,6 +34,50 @@
 	--font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
 
 	--radius: 2px;
+
+	/* Tokens qui changent avec le thème */
+	--text-soft: #c3c7cd;            /* paragraphes longs */
+	--overlay: rgba(12, 13, 15, .85); /* légendes, HUD */
+	--media-bg: #08090a;             /* fond derrière images / vidéos */
+	--edges-filter: url(#fx-edges);  /* filtre du mode Wire */
+
+	color-scheme: dark;
+}
+
+/* ==========================================================================
+   Thème clair — activé par data-theme="light" sur <html> (voir fx.js)
+   ========================================================================== */
+[data-theme="light"] {
+	--bg: #f3f2ee;
+	--panel: #ffffff;
+	--panel-head: #ebeae5;
+	--panel-hover: #f9f8f5;
+	--border: #d5d3cb;
+	--border-strong: #b5b2a8;
+
+	--text: #16171a;
+	--muted: #585d66;
+	--faint: #8b9098;
+	--text-soft: #33363c;
+
+	--accent: #e8730c;
+	--accent-ink: #1a0f04;
+
+	--axis-x: #d1343a;
+	--axis-y: #1d9a60;
+	--axis-z: #2a72b5;
+
+	--grid-minor: rgba(0, 0, 0, .035);
+	--grid-major: rgba(0, 0, 0, .07);
+
+	--ok: #1d9a60;
+	--warn: #c4860f;
+	--err: #d1343a;
+
+	--overlay: rgba(255, 255, 255, .9);
+	--media-bg: #e4e2dc;
+
+	color-scheme: light;
 }
 
 *,
@@ -231,7 +275,7 @@ main.container {
 	font-size: .7rem;
 	line-height: 1.55;
 	color: var(--muted);
-	background: rgba(12, 13, 15, .82);
+	background: var(--overlay);
 	border: 1px solid var(--border);
 	pointer-events: none;
 	font-variant-numeric: tabular-nums;
@@ -505,7 +549,7 @@ h1.page-title {
 .card .thumb-wrap {
 	position: relative;
 	aspect-ratio: 16 / 9;
-	background: color-mix(in srgb, var(--bg) 70%, #000);
+	background: var(--media-bg);
 	border-bottom: 1px solid var(--border);
 	overflow: hidden;
 }
@@ -739,7 +783,7 @@ h1.page-title {
 
 .project-hero .desc p {
 	margin: 0 0 20px;
-	color: #c3c7cd;
+	color: var(--text-soft);
 	max-width: 68ch
 }
 
@@ -826,7 +870,7 @@ h1.page-title {
 .media-item {
 	position: relative;
 	margin: 0;
-	background: #08090a;
+	background: var(--media-bg);
 	border: 1px solid var(--border);
 	overflow: hidden;
 }
@@ -867,7 +911,7 @@ h1.page-title {
 	font-family: var(--font-mono);
 	font-size: .66rem;
 	color: var(--muted);
-	background: rgba(12, 13, 15, .85);
+	background: var(--overlay);
 	border-right: 1px solid var(--border);
 	border-bottom: 1px solid var(--border);
 	pointer-events: none;
@@ -929,7 +973,7 @@ h1.page-title {
 
 .about p {
 	margin: 0 0 16px;
-	color: #c3c7cd
+	color: var(--text-soft)
 }
 
 .about .contact {
@@ -1166,7 +1210,7 @@ h1.page-title {
 
 [data-shading="wire"] img,
 [data-shading="wire"] video {
-	filter: url(#fx-edges) !important
+	filter: var(--edges-filter) !important
 }
 
 [data-shading="wire"] .hero h1,
@@ -1238,6 +1282,54 @@ h1.page-title {
 	color: #00663a
 }
 
+/* ---------- Bouton thème clair / sombre ---------- */
+.theme-toggle {
+	display: grid;
+	place-items: center;
+	width: 30px;
+	height: 25px;
+	flex: none;
+	padding: 0;
+	color: var(--muted);
+	background: transparent;
+	border: 1px solid var(--border);
+	cursor: pointer
+}
+
+.theme-toggle:hover {
+	color: var(--accent);
+	border-color: var(--accent)
+}
+
+.theme-toggle svg {
+	width: 15px;
+	height: 15px
+}
+
+/* En sombre on propose le soleil, en clair la lune */
+.theme-toggle .moon,
+[data-theme="light"] .theme-toggle .sun {
+	display: none
+}
+
+[data-theme="light"] .theme-toggle .moon {
+	display: block
+}
+
+/* ---------- Thème clair + mode Wire : traits sombres sur papier ---------- */
+[data-theme="light"][data-shading="wire"] {
+	--border: #8c919a;
+	--muted: #4f545c;
+	/* contours blancs sur noir -> inversés pour le fond clair */
+	--edges-filter: url(#fx-edges) invert(1);
+}
+
+[data-theme="light"][data-shading="wire"] body,
+[data-theme="light"][data-shading="wire"] .site-header,
+[data-theme="light"][data-shading="wire"] .site-footer {
+	background-color: #fbfbf9
+}
+
 /* Mobile / tablette : le sélecteur passe sur une 2e ligne, pleine largeur */
 @media (max-width: 860px) {
 	.header-inner {
@@ -1266,6 +1358,12 @@ h1.page-title {
 	.shading button {
 		flex: 1;
 		padding: 7px 0
+	}
+
+	.theme-toggle {
+		width: 40px;
+		height: auto;
+		align-self: stretch
 	}
 
 	.inspector {
