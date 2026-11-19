@@ -1,6 +1,89 @@
 {
   "projects": [
     {
+      "slug": "vk-engine",
+      "title": "VkEngine – Moteur de rendu Vulkan 1.4",
+      "summary": "Renderer Vulkan 1.4 en C++23, développé seul : scènes glTF 2.0 en PBR, textures bindless et vertex pulling. Base d'un futur moteur orienté données avec un ECS maison.",
+      "description": "Moteur de rendu Vulkan 1.4 écrit seul en C++23, comme projet d'apprentissage (sans code généré par IA). Il affiche pour l'instant des scènes glTF 2.0 en PBR ; l'objectif à long terme est un moteur orienté données construit autour d'un ECS maison. Le renderer s'appuie sur les fonctionnalités modernes de Vulkan 1.4 : dynamic rendering, synchronization2, buffer device address, descriptor indexing et scalar block layout. Les textures et les samplers sont bindless (un seul descriptor set, lié une fois par frame) et les sommets sont lus par vertex pulling dans un grand buffer, via son adresse GPU, tout comme les matériaux et les données de scène. L'éclairage suit un modèle Cook-Torrance en workflow metallic-roughness (distribution GGX, géométrie de Smith, Fresnel de Schlick), avec normal mapping et tone mapping de Reinhard. Le chargeur glTF (.gltf et .glb) gère la hiérarchie de nœuds, les matériaux, les samplers et l'extension KHR_texture_transform, avec une gestion des erreurs : vérification des indices, primitives invalides ignorées, texture de repli quand une image manque, et rapports via spdlog. La mémoire GPU passe par VMA, l'initialisation par vk-bootstrap, et une partie du code est couverte par des tests unitaires Catch2. Prochaines étapes : ECS, ombres et IBL, interface de debug, puis rendu piloté par le GPU.",
+      "en": {
+        "title": "VkEngine – Vulkan 1.4 renderer",
+        "summary": "Vulkan 1.4 renderer in C++23, built solo: glTF 2.0 scenes with PBR, bindless textures and vertex pulling. The foundation of a future data-driven engine with a custom ECS.",
+        "description": "A Vulkan 1.4 renderer written solo in C++23 as a learning project (no AI-written code). For now it displays glTF 2.0 scenes with PBR; the long-term goal is a data-driven engine built around a custom ECS. The renderer relies on modern Vulkan 1.4 features: dynamic rendering, synchronization2, buffer device address, descriptor indexing and scalar block layout. Textures and samplers are bindless (a single descriptor set, bound once per frame) and vertices are fetched with vertex pulling from one large buffer through its device address, as are materials and scene data. Lighting uses a Cook-Torrance model in the metallic-roughness workflow (GGX distribution, Smith geometry, Schlick Fresnel), with normal mapping and Reinhard tone mapping. The glTF loader (.gltf and .glb) handles the node hierarchy, materials, samplers and the KHR_texture_transform extension, with error handling: index checks, invalid primitives skipped, a fallback texture when an image is missing, and reports through spdlog. GPU memory goes through VMA, setup through vk-bootstrap, and part of the code is covered by Catch2 unit tests. Next steps: ECS, shadows and IBL, a debug UI, then GPU-driven rendering.",
+        "period": "June 2026 – present",
+        "role": "Personal project, solo",
+        "tags": [
+          "Vulkan",
+          "Real-time rendering",
+          "PBR",
+          "glTF",
+          "Bindless",
+          "GPU",
+          "C++"
+        ]
+      },
+      "status": "En cours",
+      "period": "Juin 2026 – aujourd'hui",
+      "role": "Projet personnel, seul",
+      "tags": [
+        "Vulkan",
+        "Rendu temps réel",
+        "PBR",
+        "glTF",
+        "Bindless",
+        "GPU",
+        "C++"
+      ],
+      "tech": [
+        "C++23",
+        "Vulkan 1.4",
+        "GLSL",
+        "SDL3",
+        "VMA",
+        "vk-bootstrap",
+        "CMake"
+      ],
+      "github": "https://github.com/Mateusz-Birembaut/Vk-Engine",
+      "cover": "assets/projects/vk-engine/pbr_normal_mapping.jpg",
+      "media": [
+        {
+          "type": "image",
+          "src": "assets/projects/vk-engine/pbr_normal_mapping.jpg",
+          "caption": "Rendu PBR avec normal mapping (modèle glTF)",
+          "caption_en": "PBR rendering with normal mapping (glTF model)"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/vk-engine/pbr_vue_ensemble.jpg",
+          "caption": "Vue d'ensemble du modèle",
+          "caption_en": "Full view of the model"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/vk-engine/gltf_hierarchie.jpg",
+          "caption": "Un autre modèle glTF chargé dans le moteur",
+          "caption_en": "Another glTF model loaded in the engine"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/vk-engine/normales_monde_porsche.jpg",
+          "caption": "Normales en espace monde après la matrice TBN (normal map appliquée), ramenées dans [0, 1]",
+          "caption_en": "World-space normals after the TBN transform (normal map applied), remapped to [0, 1]"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/vk-engine/normales_monde_voiture.jpg",
+          "caption": "Même vue de debug sur un autre modèle",
+          "caption_en": "Same debug view on another model"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/vk-engine/premier_pbr.jpg",
+          "caption": "Premiers tests d'éclairage PBR",
+          "caption_en": "Early PBR lighting tests"
+        }
+      ]
+    },
+    {
       "slug": "slv",
       "title": "SLV – Lecteur d'analyse cinématographique",
       "summary": "Application de bureau C++ / Qt pour analyser des films : jusqu'à 4 vidéos en multivue, timeline découpée en plans, annotations, extraction de séquences et export.",

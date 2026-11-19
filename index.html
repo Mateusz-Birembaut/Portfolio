@@ -18,9 +18,9 @@
         try { t = localStorage.getItem('theme'); } catch (e) {}
         if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
         document.documentElement.dataset.theme = t;
-        // Langue : ?lang= dans l'URL, sinon choix mémorisé, sinon langue du navigateur (le texte est posé par i18n.js)
-        var l = null;
-        try { l = new URLSearchParams(location.search).get('lang') || localStorage.getItem('lang'); } catch (e) {}
+        // Langue : #/en ou #/fr dans l'adresse, sinon ancien ?lang=, sinon choix mémorisé, sinon langue du navigateur (le texte est posé par i18n.js)
+        var l = (location.hash.match(/^#\/(fr|en)(\/|$)/) || [])[1] || null;
+        try { l = l || new URLSearchParams(location.search).get('lang') || localStorage.getItem('lang'); } catch (e) {}
         if (l !== 'fr' && l !== 'en') l = (navigator.language || 'fr').toLowerCase().indexOf('fr') === 0 ? 'fr' : 'en';
         document.documentElement.lang = l;
       })();

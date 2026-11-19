@@ -1,6 +1,7 @@
 // i18n.js — français / anglais.
-// - Langue choisie : ?lang=en|fr dans l'URL (lien partageable), sinon choix mémorisé, sinon langue du navigateur.
-// - L'URL affiche toujours la langue courante (?lang=fr / ?lang=en) : on peut la copier et l'envoyer telle quelle.
+// - La langue est dans l'adresse, en tête du chemin après le # : …/Portfolio/#/en, …/Portfolio/#/fr/project/slv
+//   L'adresse affiche toujours la langue courante : on peut la copier et l'envoyer telle quelle.
+// - Sans langue dans l'adresse : ancien lien ?lang=xx, sinon choix mémorisé, sinon langue du navigateur.
 // - Textes de l'interface : dictionnaire ci-dessous.
 // - Contenu des projets : bloc "en" dans projects.json / tps.json (+ "caption_en" sur les médias).
 
@@ -141,8 +142,27 @@ const STRINGS = {
 
 const LANGS = ['fr', 'en'];
 
+// Langue en tête du hash (#/en/...) ou null
+export function hashLang() {
+	const seg = (location.hash || '').replace(/^#\/?/, '').split('/')[0];
+	return LANGS.includes(seg) ? seg : null;
+}
+
+// Route sans la langue : "#/en/project/slv" -> "project/slv"
+export function routePath() {
+	const segs = (location.hash || '').replace(/^#\/?/, '').split('/');
+	if (LANGS.includes(segs[0])) segs.shift();
+	return segs.join('/');
+}
+
 function detectLang() {
+	const h = hashLang();
+	if (h) {
+		try { localStorage.setItem('lang', h); } catch { }
+		return h;
+	}
 	try {
+		// anciens liens ?lang=en (encore acceptés)
 		const q = new URLSearchParams(location.search).get('lang');
 		if (LANGS.includes(q)) {
 			localStorage.setItem('lang', q);
@@ -158,14 +178,25 @@ function detectLang() {
 
 let lang = detectLang();
 
-// Écrit ?lang=xx dans l'adresse sans recharger la page (garde le #/projet éventuel)
+// Met la langue en tête du hash (#/en/...) et retire l'ancien ?lang=, sans recharger la page
 function syncUrl() {
 	try {
+		const route = routePath();
+		const hash = '#/' + lang + (route ? '/' + route : '');
 		const url = new URL(location.href);
-		if (url.searchParams.get('lang') === lang) return;
-		url.searchParams.set('lang', lang);
-		history.replaceState(history.state, '', url.pathname + url.search + url.hash);
+		const hadQuery = url.searchParams.has('lang');
+		url.searchParams.delete('lang');
+		if (location.hash === hash && !hadQuery) return;
+		history.replaceState(history.state, '', url.pathname + url.search + hash);
 	} catch { }
+}
+
+// Navigation : un lien interne (#/project/x) reçoit la langue courante ;
+// une adresse avec une autre langue (retour arrière, lien modifié à la main) change la langue affichée.
+function onNavigate() {
+	const h = hashLang();
+	if (h && h !== lang) setLang(h);
+	else syncUrl();
 }
 
 export const getLang = () => lang;
@@ -211,9 +242,7 @@ export function setLang(next) {
 }
 
 syncUrl();
-// Navigation (clic sur un projet, retour arrière…) : l'adresse garde la langue affichée
-window.addEventListener('hashchange', syncUrl);
-window.addEventListener('popstate', syncUrl);
+window.addEventListener('hashchange', onNavigate);
 applyStatic();
 document.querySelectorAll('.lang-switch button').forEach(b => {
 	b.addEventListener('click', () => setLang(b.dataset.lang));

@@ -1,4 +1,4 @@
-import { t, loc, locCaption } from './i18n.js';
+import { t, loc, locCaption, routePath } from './i18n.js';
 
 const state = { projects: [], tps: [], loaded: false, tpsLoaded: false };
 
@@ -254,8 +254,8 @@ function setActiveNav(pathRoot) {
 
 async function router({ keepScroll = false } = {}) {
 	await loadData();
-	const hash = location.hash || '#/';
-	const parts = hash.slice(2).split('/');
+	// la langue (#/en/...) est retirée par routePath()
+	const parts = routePath().split('/');
 	const root = parts[0] || '';
 	setActiveNav(['', 'projets', 'tps'].includes(root) ? root : (root === 'tp' ? 'tps' : root === 'project' ? 'projets' : ''));
 	setHudScene(root ? parts.map(decodeURIComponent).join('/') : t('hud.home'));
